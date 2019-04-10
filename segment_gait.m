@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% find_local_minima.m 
-% 
-% Segments the gait cycle using the leg extension 
+% find_local_minima.m
+%
+% Segments the gait cycle using the leg extension
 %
 % Jose Gonzalez-Vargas
 % v0.1 2016/08/08
@@ -17,18 +17,18 @@ color='bgr';
 %% segment the data for the 15 meters
 % if sub_num == 28
 %     num_trial = 2;
-% else 
+% else
 %     num_trial = 3;
-%     
+%
 % end
 num_trial = 3;
 
 %We loop from 1 to 3, segmenting the strides of every trial.
     for i = 1:num_trial
-        
+
         varname = strcat('trial',int2str(i));
         segment_trial= strcat('Trial ',int2str(i));
-        
+
         % segment using the right leg
         % We prepare the plot where we will plot the segmented trial
         segment_element='Right Knee';
@@ -45,7 +45,7 @@ num_trial = 3;
         %find_leg_extension also plots the angle for every trial, the
         %threshold use to find the peaks, and each leg extension.
         segments = find_leg_extension(data.angles.meters15.untilTurnTrials.(varname)(:,5),color(i)); % Column 5 corresponds to right knee angle in the angle .capa file
-        
+
         %Now, in data we save the segments. Each segment is one step with
         %the right leg
         for j = 1:length(segments)-1
@@ -54,11 +54,11 @@ num_trial = 3;
                 data.angles.meters15.untilTurnTrials.(varname)(segments(2,j):segments(2,j+1),:);
         end
 
-        
-        
+
+
         % segment using the left leg. It is basically the same process than
         % with the right leg
-        
+
         segment_element='Left Knee';
         subplot(2,3,i+3)
         segments = find_leg_extension(data.angles.meters15.untilTurnTrials.(varname)(:,14),color(i)); % Column 14 corresponds to left knee angle in the angle .capa file
