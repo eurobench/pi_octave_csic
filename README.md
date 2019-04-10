@@ -58,3 +58,12 @@ This function:
 - Uses these pre-processed parameters to obtain the step length.
 - As a bonus: it also takes the angles measured by the inertial sensors to calculate the joint positions.
 - It makes a representation. (I also attach an .eps example)
+
+## Octave commands
+
+Once octave is launched:
+```
+// to read the file
+data = load("Data02_09.mat")
+// call the program
+```
