@@ -10,7 +10,7 @@ function data = segment_gait(data, sub_num)
 
 h = figure('Name','Segmentation','NumberTitle','off');
 set(h,'units','normalized','outerposition',[0 0 1 1]);
-sgtitle('Angles until the turn. Meters15 test, three trials, with each stride marked', 'fontSize',18,'fontWeight','bold')
+%sgtitle('Angles until the turn. Meters15 test, three trials, with each stride marked', 'fontSize',18,'fontWeight','bold')
 % set the color of the plot: trial1=red, trial2=green, trial3=blue
 color='bgr';
 
