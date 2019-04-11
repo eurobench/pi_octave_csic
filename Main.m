@@ -1,6 +1,6 @@
 %%Additional command to get it working
 
-all_data = load("Data02_09.mat");
+all_data = load('Data02_09.mat');
 sub_num = 10;
 
 %% extracting the data from the subject
