@@ -1,2 +1,2 @@
 [lfs]
-url = "ssh://anthony.remazeilles@tecnalia.com@artifact.tecnalia.com/api/lfs/eurobench-gitlfs-dev-local"
+url = "ssh://anthony.remazeilles@tecnalia.com@artifact.tecnalia.com/api/eurobench-gitlfs-dev-local"
