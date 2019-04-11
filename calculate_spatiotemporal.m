@@ -19,21 +19,21 @@ function data = calculate_spatiotemporal (data, sub_num)
 
     h = figure('Name','Foot-foot distance','NumberTitle','off');
     set(h,'units','normalized','outerposition',[0 0 1 1]);
-    
-%     
+
+%
 %     if sub_num == 28
 %         num_trial = 2;
 %     else
 %         num_trial = 3;
 %     end
-    
+
     num_trial = 3;
 
     for trial = 1:num_trial
         varName = strcat('trial',int2str(trial));
-        
+
         %% calculate stride time and step time
-        
+
         HS_right = data.angles.meters15.untilTurnTrials.events.heelstrike.rightleg.(varName);
         HS_left = data.angles.meters15.untilTurnTrials.events.heelstrike.leftleg.(varName);
 
@@ -65,7 +65,7 @@ function data = calculate_spatiotemporal (data, sub_num)
         strideTime_3trials_l = [strideTime_3trials_l data.angles.meters15.untilTurnTrials.('spatiotemporal').('strideTime').('leftleg').(varName)];
         stepTime_3trials_r = [stepTime_3trials_r data.angles.meters15.untilTurnTrials.('spatiotemporal').('stepTime').('rightleg').(varName)];
         stepTime_3trials_l = [stepTime_3trials_l data.angles.meters15.untilTurnTrials.('spatiotemporal').('stepTime').('leftleg').(varName)];
-        
+
         % Length
         sT_r(trial) = length(strideTime_3trials_r);
         sT_l(trial) = length(strideTime_3trials_l);
@@ -73,7 +73,7 @@ function data = calculate_spatiotemporal (data, sub_num)
         ST_l(trial) = length(stepTime_3trials_l);
 
         %% calculate Joint Positions
-        
+
         HIP_angle_r = data.angles.meters15.untilTurnTrials.(varName)(:,2:4);
         HIP_angle_l = data.angles.meters15.untilTurnTrials.(varName)(:,11:13);
         KNEE_angle_r = data.angles.meters15.untilTurnTrials.(varName)(:,5:7);
@@ -117,9 +117,9 @@ function data = calculate_spatiotemporal (data, sub_num)
             feetDist(t,2) = pdist([toe_r_pos(t,:); toe_l_pos(t,:)],'euclidean');
 
         end
-        
+
         %% plot foot-foot distance
-        
+
         [step_length_rl index] = findpeaks(feetDist(:,2),'MinPeakDistance',floor(mean(stepTime_3trials_r)*data.frequency/5)); % find peaks of the foot-foot distance (taking away peaks closer than 1/5 stepTime)
         data.angles.meters15.untilTurnTrials.spatiotemporal.('stepLength').rightleg.(varName)=step_length_rl(1:2:end)';
         data.angles.meters15.untilTurnTrials.spatiotemporal.('stepLength').leftleg.(varName)=step_length_rl(2:2:end)';
@@ -138,13 +138,13 @@ function data = calculate_spatiotemporal (data, sub_num)
 
         stepLength_3trials_r=[stepLength_3trials_r data.angles.meters15.untilTurnTrials.spatiotemporal.('stepLength').rightleg.(varName)];
         stepLength_3trials_l=[stepLength_3trials_l data.angles.meters15.untilTurnTrials.spatiotemporal.('stepLength').leftleg.(varName)];
-        
+
         SL_r(trial) = length(stepLength_3trials_r);
         SL_l(trial) = length(stepLength_3trials_l);
-        
-        
+
+
     end;
-    
+
 for trial = 1:num_trial
         varName = strcat('trial',int2str(trial));
         data.angles.meters15.untilTurnTrials.spatiotemporal.stepLength.rightleg.allmeans.(varName)=mean(data.angles.meters15.untilTurnTrials.spatiotemporal.stepLength.rightleg.(varName));

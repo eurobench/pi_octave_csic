@@ -58,3 +58,28 @@ This function:
 - Uses these pre-processed parameters to obtain the step length.
 - As a bonus: it also takes the angles measured by the inertial sensors to calculate the joint positions.
 - It makes a representation. (I also attach an .eps example)
+
+## Octave commands
+
+To enable the code under octave, additional packages are needed.
+Follow [these recommandation](https://octave.org/doc/v4.2.1/Installing-and-Removing-Packages.html) to make the installation.
+
+```
+sudo apt-get install liboctave-dev
+```
+
+Packages needed:
+
+* [control](https://octave.sourceforge.io/control/index.html)
+* [signal](https://octave.sourceforge.io/signal/index.html)
+* [mapping](https://octave.sourceforge.io/mapping/index.html)
+* [statistics](https://octave.sourceforge.io/statistics/index.html)
+* [io](https://octave.sourceforge.io/io/index.html)
+
+Once octave is configured:
+```
+pkg load signal
+pkg load mapping
+pkg load statistics
+Main
+```
