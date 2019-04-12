@@ -1,6 +1,20 @@
 %%Additional command to get it working
 
+isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
+
+if isOctave
+    disp('Using Octave')
+    pkg load signal
+    pkg load mapping
+    pkg load statistics
+else
+    disp('Using Matlab')
+end
+
+disp('Loading data')
 all_data = load('Data02_09.mat');
+disp('data loaded')
+
 sub_num = 10;
 
 %% extracting the data from the subject
