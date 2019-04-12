@@ -25,12 +25,14 @@ subjectData = subjectAllData.data.anthropometry;
 angles = subjectAllData.data.angles.meters15.untilTurnTrials;
 frequency = subjectAllData.data.frequency;
 
+isBatch = false;
+
 %% segment gait cycle
 % segment gait for 15 meters. We find each step with the right and left
 % leg using the knee extension. Then, we save the segments in the structure
 % data.
 
-segmentData = segment_gait(angles);
+segmentData = segment_gait(angles, isBatch);
 
 %Now we plot the angles of during each stride for every joint, for the
 %three trials, using the right and left leg strides

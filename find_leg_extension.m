@@ -7,7 +7,7 @@
 % v0.1 2016/08/08
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function output = find_leg_extension(data, color)
+function [output threshold] = find_leg_extension(data, color)
 
 
 data_temp = data; %Here, we set a threshold and everything below the threshold
@@ -46,13 +46,13 @@ while (m < 0)
 end
 end
 
-%figure
-hold on
-xlim=[1 length(data)];
-plot(data,color);
-plot(low_value(2,:), low_value(1,:), '*r');
-plot(xlim,[threshold threshold],':k','LineWidth',1)
-hold off
+% %figure
+% hold on
+% xlim=[1 length(data)];
+% plot(data,color);
+% plot(low_value(2,:), low_value(1,:), '*r');
+% plot(xlim,[threshold threshold],':k','LineWidth',1)
+% hold off
 output = low_value;
 end
 
