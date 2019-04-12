@@ -12,24 +12,25 @@ else
 end
 
 disp('Loading data')
-all_data = load('Data02_09.mat');
+allData = load('Data02_09.mat');
 disp('data loaded')
 
-sub_num = 10;
+subNum = 10;
 
 %% extracting the data from the subject
-subject_field = strcat('subject',int2str(sub_num));
+subjectField = strcat('subject',int2str(subNum));
+subjectAllData = getfield(allData.experimentalData, subjectField);
 
-subject_data = getfield(all_data.experimentalData, subject_field);
-subject_data = subject_data.data
+subjectData = subjectAllData.data.anthropometry;
+angles = subjectAllData.data.angles.meters15.untilTurnTrials;
+frequency = subjectAllData.data.frequency;
 
 %% segment gait cycle
 % segment gait for 15 meters. We find each step with the right and left
 % leg using the knee extension. Then, we save the segments in the structure
 % data.
 
-segment_data = segment_gait(subject_data,sub_num);
-
+segmentData = segment_gait(angles);
 
 %Now we plot the angles of during each stride for every joint, for the
 %three trials, using the right and left leg strides
@@ -48,7 +49,7 @@ segment_data = segment_gait(subject_data,sub_num);
 %as the heel strike. Since we used the leg extension to mark the
 %beginning of each stide, this will coincide with the heel strike.
 
-event_data = calculate_events(segment_data,sub_num);
+eventData = calculate_events(segmentData);
 
 %% calculate spatiotemporal parameters. This function calculates:
 %   Stride time (left and right legs): mean, STD, CoV
@@ -56,4 +57,4 @@ event_data = calculate_events(segment_data,sub_num);
 %   Step Lenght (left and right legs): mean, STD, CoV
 %   Note: These parameters are only calculated with the strides until the
 %   patient reaches the turn
-sp_data = calculate_spatiotemporal(subject_data, event_data, sub_num);
+sp_data = calculate_spatiotemporal(subjectData, frequency, angles, eventData);

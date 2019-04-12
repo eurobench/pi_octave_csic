@@ -1,6 +1,6 @@
 %% Consider only the second and third trials in the calculation of parameters
 
-function sp_data = calculate_spatiotemporal (subject_data, event_data, sub_num)
+function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_data, event_data)
 
     strideTime_3trials_r=[];
     strideTime_3trials_l=[];
@@ -9,23 +9,16 @@ function sp_data = calculate_spatiotemporal (subject_data, event_data, sub_num)
     stepLength_3trials_r=[];
     stepLength_3trials_l=[];
 
-    shank = subject_data.anthropometry.shank;
-    thigh = subject_data.anthropometry.thigh;
-    trunk = subject_data.anthropometry.trunk;
-    foot = subject_data.anthropometry.foot;
-%         foot = 15;
+    shank = subject_data.shank;
+    thigh = subject_data.thigh;
+    trunk = subject_data.trunk;
+    foot = subject_data.foot;
+    % foot = 15;
 
     color='bgr';
 
     h = figure('Name','Foot-foot distance','NumberTitle','off');
     set(h,'units','normalized','outerposition',[0 0 1 1]);
-
-%
-%     if sub_num == 28
-%         num_trial = 2;
-%     else
-%         num_trial = 3;
-%     end
 
     num_trial = 3;
 
@@ -37,13 +30,13 @@ function sp_data = calculate_spatiotemporal (subject_data, event_data, sub_num)
         HS_left = event_data.heelstrike.leftleg.(trialName);
 
         % stride time, right leg, in seconds
-        sp_data.('strideTime').('rightleg').(trialName) = diff(HS_right)/subject_data.frequency;
+        sp_data.('strideTime').('rightleg').(trialName) = diff(HS_right)/frequency;
 
         % stride time, left leg, in seconds
-        sp_data.('strideTime').('leftleg').(trialName) = diff(HS_left)/subject_data.frequency;
+        sp_data.('strideTime').('leftleg').(trialName) = diff(HS_left)/frequency;
 
         % step time (= time from contralateral to ipsilateral HS), in seconds
-        step_time_all = diff(sort([HS_right HS_left]))/subject_data.frequency; % all step times not classified by side
+        step_time_all = diff(sort([HS_right HS_left]))/frequency; % all step times not classified by side
 
         if HS_left(1) < HS_right(1)
             % first heel strike: left --> first step time: right
@@ -69,13 +62,13 @@ function sp_data = calculate_spatiotemporal (subject_data, event_data, sub_num)
         ST_l(trial) = length(stepTime_3trials_l);
 
         %% calculate Joint Positions
-        HIP_angle_r = subject_data.angles.meters15.untilTurnTrials.(trialName)(:,2:4);
-        HIP_angle_l = subject_data.angles.meters15.untilTurnTrials.(trialName)(:,11:13);
-        KNEE_angle_r = subject_data.angles.meters15.untilTurnTrials.(trialName)(:,5:7);
-        KNEE_angle_l = subject_data.angles.meters15.untilTurnTrials.(trialName)(:,14:16);
-        ANKLE_angle_r = subject_data.angles.meters15.untilTurnTrials.(trialName)(:,8:10);
-        ANKLE_angle_l = subject_data.angles.meters15.untilTurnTrials.(trialName)(:,17:19);
-        WAIST_angle = subject_data.angles.meters15.untilTurnTrials.(trialName)(:,20:21);
+        HIP_angle_r = angles_data.(trialName)(:,2:4);
+        HIP_angle_l = angles_data.(trialName)(:,11:13);
+        KNEE_angle_r = angles_data.(trialName)(:,5:7);
+        KNEE_angle_l = angles_data.(trialName)(:,14:16);
+        ANKLE_angle_r = angles_data.(trialName)(:,8:10);
+        ANKLE_angle_l = angles_data.(trialName)(:,17:19);
+        WAIST_angle = angles_data.(trialName)(:,20:21);
         pelvis_angle = 10; % reference angle (pelvis) in space. All other segments will be plotted with respect to this.
 
         first_right_HS = event_data.heelstrike.rightleg.(trialName)(1); % first heel strike of the right leg (taken as time & space reference)
@@ -90,7 +83,7 @@ function sp_data = calculate_spatiotemporal (subject_data, event_data, sub_num)
         toe_l_pos= [];
 
         % i goes from first right heel strike until the end of trial 1
-        for i = find(subject_data.angles.meters15.untilTurnTrials.(trialName)(:,1)==first_right_HS):size(subject_data.angles.meters15.untilTurnTrials.(trialName),1)
+        for i = find(angles_data.(trialName)(:,1)==first_right_HS):size(angles_data.(trialName),1)
             t = t + 1;
             gamma_r = deg2rad(HIP_angle_r(i,1)-pelvis_angle);
             beta_r = deg2rad(KNEE_angle_r(i,1));
@@ -108,14 +101,14 @@ function sp_data = calculate_spatiotemporal (subject_data, event_data, sub_num)
             ankle_l_pos(t, 1:2) = knee_l_pos(t, :) + [sin(gamma_l - beta_l) - cos(gamma_l - beta_l)] * shank;
             toe_l_pos(t, 1:2) = ankle_l_pos(t, :) + [cos(alfa_l) sin(alfa_l)] * foot;
 
-            feetDist(t,1) = subject_data.angles.meters15.untilTurnTrials.(trialName)(i,1); % time
+            feetDist(t,1) = angles_data.(trialName)(i,1); % time
             feetDist(t,2) = pdist([toe_r_pos(t,:); toe_l_pos(t,:)],'euclidean');
 
         end
 
         %% plot foot-foot distance
         % find peaks of the foot-foot distance (taking away peaks closer than 1/5 stepTime)
-        [step_length_rl index] = findpeaks(feetDist(:,2),'MinPeakDistance',floor(mean(stepTime_3trials_r)*subject_data.frequency/5));
+        [step_length_rl index] = findpeaks(feetDist(:,2),'MinPeakDistance',floor(mean(stepTime_3trials_r)*frequency/5));
         sp_data.('stepLength').rightleg.(trialName)=step_length_rl(1:2:end)';
         sp_data.('stepLength').leftleg.(trialName)=step_length_rl(2:2:end)';
         subplot(3,1,trial)

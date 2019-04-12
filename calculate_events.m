@@ -1,10 +1,4 @@
-function event_data = calculate_events(segment_data, sub_num)
-
-% if sub_num == 28
-%     num_trial = 2;
-% else
-%     num_trial = 3;
-% end
+function event_data = calculate_events(segment_data)
 
 num_trial = 3;
 
