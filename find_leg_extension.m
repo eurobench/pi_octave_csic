@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% find_leg_extension.m 
-% 
+% find_leg_extension.m
+%
 % Finds all the minimal leg extension
 %
 % Jose Gonzalez-Vargas
@@ -16,7 +16,7 @@ threshold=rms(data);
 %¿THRESHOLD ADECUADO PARA CADA PACIENTE?
 
 %Whatever is lower than the threshold, we set it to 0 so that we do not
-%have any other peaks than the big peaks. 
+%have any other peaks than the big peaks.
 data_temp(data_temp < threshold) = 0;
 
 %We find all the peaks of the function
@@ -30,7 +30,7 @@ low_value = zeros(2,length(index)-1);
 
 %We loop from 1 to the number of peaks we have minus one. We basically do
 %not want to find the minimum after the last peak, that is why we substract
-%1 
+%1
 for i = 1:length(index)-1
 m = -1;
 j = index(i);
@@ -42,7 +42,7 @@ while (m < 0)
     m = data(j+1)- data(j);
     low_value(1,i) = data(j);
     low_value(2,i) = j;
-    j = j + 1; 
+    j = j + 1;
 end
 end
 
