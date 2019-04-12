@@ -1,21 +1,36 @@
 %%Additional command to get it working
 
-all_data = load('Data02_09.mat');
-sub_num = 10;
+isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
+
+if isOctave
+    disp('Using Octave')
+    pkg load signal
+    pkg load mapping
+    pkg load statistics
+else
+    disp('Using Matlab')
+end
+
+disp('Loading data')
+allData = load('Data02_09.mat');
+disp('data loaded')
+
+subNum = 10;
 
 %% extracting the data from the subject
-subject_field=strcat('subject',int2str(10));
+subjectField = strcat('subject',int2str(subNum));
+subjectAllData = getfield(allData.experimentalData, subjectField);
 
-subject_data = getfield(all_data.experimentalData, subject_field);
-subject_data = subject_data.data
+subjectData = subjectAllData.data.anthropometry;
+angles = subjectAllData.data.angles.meters15.untilTurnTrials;
+frequency = subjectAllData.data.frequency;
 
 %% segment gait cycle
 % segment gait for 15 meters. We find each step with the right and left
 % leg using the knee extension. Then, we save the segments in the structure
 % data.
 
-subject_data = segment_gait(subject_data,sub_num);
-
+segmentData = segment_gait(angles);
 
 %Now we plot the angles of during each stride for every joint, for the
 %three trials, using the right and left leg strides
@@ -34,7 +49,7 @@ subject_data = segment_gait(subject_data,sub_num);
 %as the heel strike. Since we used the leg extension to mark the
 %beginning of each stide, this will coincide with the heel strike.
 
-subject_data = calculate_events(subject_data,sub_num);
+eventData = calculate_events(segmentData);
 
 %% calculate spatiotemporal parameters. This function calculates:
 %   Stride time (left and right legs): mean, STD, CoV
@@ -42,5 +57,4 @@ subject_data = calculate_events(subject_data,sub_num);
 %   Step Lenght (left and right legs): mean, STD, CoV
 %   Note: These parameters are only calculated with the strides until the
 %   patient reaches the turn
-subject_data = calculate_spatiotemporal(subject_data,sub_num);
-
+sp_data = calculate_spatiotemporal(subjectData, frequency, angles, eventData);
