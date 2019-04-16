@@ -59,4 +59,4 @@ eventData = calculate_events(segmentData);
 %   Step Lenght (left and right legs): mean, STD, CoV
 %   Note: These parameters are only calculated with the strides until the
 %   patient reaches the turn
-sp_data = calculate_spatiotemporal(subjectData, frequency, angles, eventData);
+sp_data = calculate_spatiotemporal(subjectData, frequency, angles, eventData, isBatch);

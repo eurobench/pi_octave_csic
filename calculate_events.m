@@ -1,6 +1,6 @@
 function event_data = calculate_events(segment_data)
 
-num_trial = 3;
+    num_trial = 3;
 
     for i = 1:num_trial
         name_trial = strcat('trial',int2str(i));
