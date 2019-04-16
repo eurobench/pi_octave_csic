@@ -25,13 +25,13 @@ function segment_data = segment_gait(data, nTrial, isBatch)
         %threshold use to find the peaks, and each leg extension.
 
         % Column 5 corresponds to right knee angle in the angle .capa file
-        [segments_right threshold_right] = find_leg_extension(data.(trial_name)(:,5)); 
+        [segments_right threshold_right] = find_leg_extension(data.(trial_name)(:, 5));
 
         %Now, in data we save the segments. Each segment is one step with
         %the right leg
         for j = 1:length(segments_right)-1
             segmentName = strcat('segment',int2str(j));
-            segment_data.rightleg.(trial_name).(segmentName) = data.(trial_name)(segments_right(2,j):segments_right(2,j+1),:);
+            segment_data.rightleg.(trial_name).(segmentName) = data.(trial_name)(segments_right(2, j):segments_right(2, j + 1),:);
         end
 
         % segment using the left leg. It is basically the same process than
@@ -40,11 +40,11 @@ function segment_data = segment_gait(data, nTrial, isBatch)
         segment_element='Left Knee';
 
         % Column 14 corresponds to left knee angle in the angle .capa file
-        [segments_left threshold_left] = find_leg_extension(data.(trial_name)(:,14));
+        [segments_left threshold_left] = find_leg_extension(data.(trial_name)(:, 14));
 
         for j = 1:length(segments_left)-1
             segmentName = strcat('segment',int2str(j));
-            segment_data.leftleg.(trial_name).(segmentName) = data.(trial_name)(segments_left(2,j):segments_left(2,j+1),:);
+            segment_data.leftleg.(trial_name).(segmentName) = data.(trial_name)(segments_left(2, j):segments_left(2, j + 1),:);
         end
 
         % storing data for graph generation
@@ -65,8 +65,8 @@ function segment_data = segment_gait(data, nTrial, isBatch)
         color='bgr';
 
         for i = 1:nTrial
-            trial_name = strcat('trial',int2str(i));
-            segment_trial = strcat('Trial ',int2str(i));
+            trial_name = strcat('trial', int2str(i));
+            segment_trial = strcat('Trial ', int2str(i));
             segment_element = 'Right Knee';
 
             segments_right = tmp.(trial_name).segments_right;
@@ -74,11 +74,11 @@ function segment_data = segment_gait(data, nTrial, isBatch)
             segments_left = tmp.(trial_name).segments_left;
             threshold_left = tmp.(trial_name).threshold_left;
 
-            subplot(2,3,i)
+            subplot(2, 3, i)
 
-            title(strcat(segment_trial),'fontSize',18,'fontWeight','bold');
+            title(strcat(segment_trial), 'fontSize', 18, 'fontWeight', 'bold');
             if i == 1
-                ylabel (segment_element,'fontSize',18,'fontWeight','bold');
+                ylabel (segment_element, 'fontSize', 18, 'fontWeight', 'bold');
             end
 
             hold on

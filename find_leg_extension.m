@@ -11,7 +11,7 @@ function [output threshold] = find_leg_extension(data)
 
     data_temp = data; %Here, we set a threshold and everything below the threshold
                       %we set it to 0 to remove the peaks we do not want
-    threshold=rms(data);
+    threshold = rms(data);
     %¿THRESHOLD ADECUADO PARA CADA PACIENTE?
 
     %Whatever is lower than the threshold, we set it to 0 so that we do not
@@ -25,7 +25,7 @@ function [output threshold] = find_leg_extension(data)
     % matrix we will output. The first row of low_value will contain the value
     % of the minima after the peak, and the second row of low_value will
     % contain the index of the minima after the peak.
-    low_value = zeros(2,length(index)-1);
+    low_value = zeros(2, length(index) - 1);
 
     %We loop from 1 to the number of peaks we have minus one. We basically do
     %not want to find the minimum after the last peak, that is why we substract
@@ -38,9 +38,9 @@ function [output threshold] = find_leg_extension(data)
         %find it, we get out of the loop low_value(1,i) will contain the value of
         %the minimum, and low_value (2,i) will contain the index of the minimum.
         while (m < 0)
-            m = data(j+1)- data(j);
-            low_value(1,i) = data(j);
-            low_value(2,i) = j;
+            m = data(j + 1) - data(j);
+            low_value(1, i) = data(j);
+            low_value(2, i) = j;
             j = j + 1;
         end
     end

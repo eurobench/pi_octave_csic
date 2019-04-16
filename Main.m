@@ -18,7 +18,7 @@ disp('data loaded')
 subNum = 10;
 
 %% extracting the data from the subject
-subjectField = strcat('subject',int2str(subNum));
+subjectField = strcat('subject', int2str(subNum));
 subjectAllData = getfield(allData.experimentalData, subjectField);
 
 subjectData = subjectAllData.data.anthropometry;
