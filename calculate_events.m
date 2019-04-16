@@ -1,8 +1,15 @@
-function event_data = calculate_events(segment_data)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% calculate_event.m
+%
+% TODO
+%
+% Author to be defined
+% creation date to be defined
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    num_trial = 3;
+function event_data = calculate_events(segment_data, nTrial)
 
-    for i = 1:num_trial
+    for i = 1:nTrial
         name_trial = strcat('trial',int2str(i));
         %We find the number of strides with the right leg
         n_segments_right=length(fieldnames(segment_data.rightleg.(name_trial)));

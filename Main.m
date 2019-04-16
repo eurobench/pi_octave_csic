@@ -26,13 +26,14 @@ angles = subjectAllData.data.angles.meters15.untilTurnTrials;
 frequency = subjectAllData.data.frequency;
 
 isBatch = false;
+nTrial = 3
 
 %% segment gait cycle
 % segment gait for 15 meters. We find each step with the right and left
 % leg using the knee extension. Then, we save the segments in the structure
 % data.
 
-segmentData = segment_gait(angles, isBatch);
+segmentData = segment_gait(angles, nTrial, isBatch);
 
 %Now we plot the angles of during each stride for every joint, for the
 %three trials, using the right and left leg strides
@@ -51,7 +52,7 @@ segmentData = segment_gait(angles, isBatch);
 %as the heel strike. Since we used the leg extension to mark the
 %beginning of each stide, this will coincide with the heel strike.
 
-eventData = calculate_events(segmentData);
+eventData = calculate_events(segmentData, nTrial);
 
 %% calculate spatiotemporal parameters. This function calculates:
 %   Stride time (left and right legs): mean, STD, CoV
@@ -59,4 +60,4 @@ eventData = calculate_events(segmentData);
 %   Step Lenght (left and right legs): mean, STD, CoV
 %   Note: These parameters are only calculated with the strides until the
 %   patient reaches the turn
-sp_data = calculate_spatiotemporal(subjectData, frequency, angles, eventData, isBatch);
+sp_data = calculate_spatiotemporal(subjectData, frequency, angles, eventData, nTrial, isBatch);

@@ -6,12 +6,11 @@
 % Jose Gonzalez-Vargas
 % v0.1 2016/08/08
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function segment_data = segment_gait(data, isBatch)
+function segment_data = segment_gait(data, nTrial, isBatch)
 
-    num_trial = 3;
 
-    %We loop from 1 to 3, segmenting the strides of every trial.
-    for i = 1:num_trial
+    %We loop segmenting the strides of every trial.
+    for i = 1:nTrial
         trial_name = strcat('trial',int2str(i));
         segment_trial= strcat('Trial ',int2str(i));
 
@@ -65,7 +64,7 @@ function segment_data = segment_gait(data, isBatch)
         % set the color of the plot: trial1=red, trial2=green, trial3=blue
         color='bgr';
 
-        for i = 1:num_trial
+        for i = 1:nTrial
             trial_name = strcat('trial',int2str(i));
             segment_trial = strcat('Trial ',int2str(i));
             segment_element = 'Right Knee';
