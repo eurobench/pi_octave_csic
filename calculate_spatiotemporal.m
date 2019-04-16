@@ -1,6 +1,6 @@
 %% Consider only the second and third trials in the calculation of parameters
 
-function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_data, event_data)
+function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_data, event_data, nTrial, isBatch)
 
     strideTime_3trials_r=[];
     strideTime_3trials_l=[];
@@ -15,14 +15,13 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
     foot = subject_data.foot;
     % foot = 15;
 
-    color='bgr';
+    if ~isBatch
+        color='bgr';
+        h = figure('Name','Foot-foot distance','NumberTitle','off');
+        set(h,'units','normalized','outerposition',[0 0 1 1]);
+    end
 
-    h = figure('Name','Foot-foot distance','NumberTitle','off');
-    set(h,'units','normalized','outerposition',[0 0 1 1]);
-
-    num_trial = 3;
-
-    for trial = 1:num_trial
+    for trial = 1:nTrial
         trialName = strcat('trial',int2str(trial));
 
         %% calculate stride time and step time
@@ -111,72 +110,73 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
         [step_length_rl index] = findpeaks(feetDist(:,2),'MinPeakDistance',floor(mean(stepTime_3trials_r)*frequency/5));
         sp_data.('stepLength').rightleg.(trialName)=step_length_rl(1:2:end)';
         sp_data.('stepLength').leftleg.(trialName)=step_length_rl(2:2:end)';
-        subplot(3,1,trial)
-        h(1)= plot (feetDist(:,1), feetDist(:,2),color(trial));
-        title(['Trial ', num2str(trial)])
-        hold on
-        h(2)= plot (feetDist(index,1),step_length_rl,['o' color(trial)]); % plot peaks
-        for i=1:length(event_data.heelstrike.rightleg.(trialName))
-            h(3)= plot ([event_data.heelstrike.rightleg.(trialName)(i),event_data.heelstrike.rightleg.(trialName)(i)],[0,max(feetDist(:,2))],'k');
+
+        if ~isBatch
+            subplot(3,1,trial)
+            h(1)= plot (feetDist(:,1), feetDist(:,2),color(trial));
+            title(['Trial ', num2str(trial)])
+            hold on
+            h(2)= plot (feetDist(index,1),step_length_rl,['o' color(trial)]); % plot peaks
+            for i=1:length(event_data.heelstrike.rightleg.(trialName))
+                h(3)= plot ([event_data.heelstrike.rightleg.(trialName)(i),event_data.heelstrike.rightleg.(trialName)(i)],[0,max(feetDist(:,2))],'k');
+            end
+            for i=1:length(event_data.heelstrike.leftleg.(trialName))
+                h(4)= plot ([event_data.heelstrike.leftleg.(trialName)(i),event_data.heelstrike.leftleg.(trialName)(i)],[0,max(feetDist(:,2))],'--k');
+            end
+            legend (h(1:4),['foot-foot distance'],'peaks','right HS','left HS')
         end
-        for i=1:length(event_data.heelstrike.leftleg.(trialName))
-            h(4)= plot ([event_data.heelstrike.leftleg.(trialName)(i),event_data.heelstrike.leftleg.(trialName)(i)],[0,max(feetDist(:,2))],'--k');
-        end
-        legend (h(1:4),['foot-foot distance'],'peaks','right HS','left HS')
 
         stepLength_3trials_r=[stepLength_3trials_r sp_data.('stepLength').rightleg.(trialName)];
         stepLength_3trials_l=[stepLength_3trials_l sp_data.('stepLength').leftleg.(trialName)];
 
         SL_r(trial) = length(stepLength_3trials_r);
         SL_l(trial) = length(stepLength_3trials_l);
-    end;
+    end
 
-for trial = 1:num_trial
-    trialName = strcat('trial',int2str(trial));
-    sp_data.stepLength.rightleg.allmeans.(trialName)=mean(sp_data.stepLength.rightleg.(trialName));
-    sp_data.stepLength.rightleg.allstds.(trialName)=std(sp_data.stepLength.rightleg.(trialName));
+    for trial = 1:nTrial
+        trialName = strcat('trial',int2str(trial));
+        sp_data.stepLength.rightleg.allmeans.(trialName) = mean(sp_data.stepLength.rightleg.(trialName));
+        sp_data.stepLength.rightleg.allstds.(trialName) = std(sp_data.stepLength.rightleg.(trialName));
+    end
 
-end
+    for trial = 1:nTrial
+        trialName = strcat('trial',int2str(trial));
+        sp_data.stepLength.leftleg.allmeans.(trialName) = mean(sp_data.stepLength.leftleg.(trialName));
+        sp_data.stepLength.leftleg.allstds.(trialName) = std(sp_data.stepLength.leftleg.(trialName));
+    end
 
-for trial = 1:num_trial
-    trialName = strcat('trial',int2str(trial));
-    sp_data.stepLength.leftleg.allmeans.(trialName)=mean(sp_data.stepLength.leftleg.(trialName));
-    sp_data.stepLength.leftleg.allstds.(trialName)=std(sp_data.stepLength.leftleg.(trialName));
-end
+    for trial = 1:nTrial
+        trialName = strcat('trial',int2str(trial));
+        sp_data.strideTime.rightleg.allmeans.(trialName) = mean(sp_data.strideTime.rightleg.(trialName));
+        sp_data.strideTime.rightleg.allstds.(trialName) = std(sp_data.strideTime.rightleg.(trialName));
+    end
 
-for trial = 1:num_trial
-    trialName = strcat('trial',int2str(trial));
-    sp_data.strideTime.rightleg.allmeans.(trialName)=mean(sp_data.strideTime.rightleg.(trialName));
-    sp_data.strideTime.rightleg.allstds.(trialName)=std(sp_data.strideTime.rightleg.(trialName));
-end
+    for trial = 1:nTrial
+        trialName = strcat('trial',int2str(trial));
+        sp_data.strideTime.leftleg.allmeans.(trialName) = mean(sp_data.strideTime.leftleg.(trialName));
+        sp_data.strideTime.leftleg.allstds.(trialName) = std(sp_data.strideTime.leftleg.(trialName));
+    end
 
-for trial = 1:num_trial
-    trialName = strcat('trial',int2str(trial));
-    sp_data.strideTime.leftleg.allmeans.(trialName)=mean(sp_data.strideTime.leftleg.(trialName));
-    sp_data.strideTime.leftleg.allstds.(trialName)=std(sp_data.strideTime.leftleg.(trialName));
-end
-
-%% calculate mean values & STD across all trials
-sp_data.strideTime.rightleg.('mean')= mean (strideTime_3trials_r(1,sT_r(1)+1:end));
-sp_data.strideTime.rightleg.('std')= std (strideTime_3trials_r(1,sT_r(1)+1:end));
-sp_data.strideTime.rightleg.varCoeff=(std (strideTime_3trials_r(1,sT_r(1)+1:end)))/(mean (strideTime_3trials_r(1,sT_r(1)+1:end)));
-sp_data.strideTime.leftleg.('mean')= mean (strideTime_3trials_l(1,sT_l(1)+1:end));
-sp_data.strideTime.leftleg.('std')= std (strideTime_3trials_l(1,sT_l(1)+1:end));
-sp_data.strideTime.leftleg.varCoeff=(std (strideTime_3trials_l(1,sT_l(1)+1:end)))/(mean (strideTime_3trials_l(1,sT_l(1)+1:end)));
+    %% calculate mean values & STD across all trials
+    sp_data.strideTime.rightleg.('mean') = mean (strideTime_3trials_r(1,sT_r(1)+1:end));
+    sp_data.strideTime.rightleg.('std') = std (strideTime_3trials_r(1,sT_r(1)+1:end));
+    sp_data.strideTime.rightleg.varCoeff = (std (strideTime_3trials_r(1,sT_r(1)+1:end)))/(mean (strideTime_3trials_r(1,sT_r(1)+1:end)));
+    sp_data.strideTime.leftleg.('mean')= mean (strideTime_3trials_l(1,sT_l(1)+1:end));
+    sp_data.strideTime.leftleg.('std') = std (strideTime_3trials_l(1,sT_l(1)+1:end));
+    sp_data.strideTime.leftleg.varCoeff = (std (strideTime_3trials_l(1,sT_l(1)+1:end)))/(mean (strideTime_3trials_l(1,sT_l(1)+1:end)));
 
 
-sp_data.stepTime.rightleg.('mean')= mean (stepTime_3trials_r(1,ST_r(1)+1:end));
-sp_data.stepTime.rightleg.('std')= std (stepTime_3trials_r(1,ST_r(1)+1:end));
-sp_data.stepTime.leftleg.('mean')= mean (stepTime_3trials_l(1,ST_l(1)+1:end));
-sp_data.stepTime.leftleg.('std')= std (stepTime_3trials_l(1,ST_l(1)+1:end));
-sp_data.stepTime.rightleg.varCoeff=(std (stepTime_3trials_r(1,ST_r(1)+1:end)))/(mean (stepTime_3trials_r(1,ST_r(1)+1:end)));
-sp_data.stepTime.leftleg.varCoeff=(std (stepTime_3trials_l(1,ST_l(1)+1:end)))/(mean (stepTime_3trials_l(1,ST_l(1)+1:end)));
+    sp_data.stepTime.rightleg.('mean') = mean (stepTime_3trials_r(1,ST_r(1)+1:end));
+    sp_data.stepTime.rightleg.('std') = std (stepTime_3trials_r(1,ST_r(1)+1:end));
+    sp_data.stepTime.leftleg.('mean') = mean (stepTime_3trials_l(1,ST_l(1)+1:end));
+    sp_data.stepTime.leftleg.('std') = std (stepTime_3trials_l(1,ST_l(1)+1:end));
+    sp_data.stepTime.rightleg.varCoeff = (std (stepTime_3trials_r(1,ST_r(1)+1:end)))/(mean (stepTime_3trials_r(1,ST_r(1)+1:end)));
+    sp_data.stepTime.leftleg.varCoeff = (std (stepTime_3trials_l(1,ST_l(1)+1:end)))/(mean (stepTime_3trials_l(1,ST_l(1)+1:end)));
 
-sp_data.stepLength.rightleg.('mean')= mean (stepLength_3trials_r(1,SL_r(1)+1:end));
-sp_data.stepLength.rightleg.('std')= std (stepLength_3trials_r(1,SL_r(1)+1:end));
-sp_data.stepLength.leftleg.('mean')= mean (stepLength_3trials_l(1,SL_l(1)+1:end));
-sp_data.stepLength.leftleg.('std')= std (stepLength_3trials_l(1,SL_l(1)+1:end));
-sp_data.stepLength.rightleg.varCoeff=(std (stepLength_3trials_r(1,SL_r(1)+1:end)))/(mean (stepLength_3trials_r(1,SL_r(1)+1:end)));
-sp_data.stepLength.leftleg.varCoeff=(std (stepLength_3trials_l(1,SL_l(1)+1:end)))/(mean (stepLength_3trials_l(1,SL_l(1)+1:end)));
-
+    sp_data.stepLength.rightleg.('mean') = mean (stepLength_3trials_r(1,SL_r(1)+1:end));
+    sp_data.stepLength.rightleg.('std') = std (stepLength_3trials_r(1,SL_r(1)+1:end));
+    sp_data.stepLength.leftleg.('mean') = mean (stepLength_3trials_l(1,SL_l(1)+1:end));
+    sp_data.stepLength.leftleg.('std') = std (stepLength_3trials_l(1,SL_l(1)+1:end));
+    sp_data.stepLength.rightleg.varCoeff = (std (stepLength_3trials_r(1,SL_r(1)+1:end)))/(mean (stepLength_3trials_r(1,SL_r(1)+1:end)));
+    sp_data.stepLength.leftleg.varCoeff = (std (stepLength_3trials_l(1,SL_l(1)+1:end)))/(mean (stepLength_3trials_l(1,SL_l(1)+1:end)));
 end
