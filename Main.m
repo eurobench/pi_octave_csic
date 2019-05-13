@@ -70,7 +70,30 @@ for i = 1:nTrial
     sp_data.(iTrial) = calculate_spatiotemporal(subjectData, frequency, angles, eventData);
 end
 
+display("Store results")
+
+for i = 1:nTrial
+
+    iTrial = strcat('trial',int2str(i));
+
+    filename = strcat("pi_stride_time_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.(iTrial).strideTime.rightleg.data, 'delimiter', ' ');
+    filename = strcat("pi_stride_time_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.(iTrial).strideTime.leftleg.data, 'delimiter', ' ');
+
+    filename = strcat("pi_step_time_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.(iTrial).stepTime.rightleg.data, 'delimiter', ' ');
+    filename = strcat("pi_step_time_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.(iTrial).stepTime.leftleg.data, 'delimiter', ' ');
+
+    filename = strcat("pi_step_length_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.(iTrial).stepLength.rightleg.data, 'delimiter', ' ');
+    filename = strcat("pi_step_length_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.(iTrial).stepLength.leftleg.data, 'delimiter', ' ');
+end
+
 display("Generate metric across trials")
+display("This may be taken out in further version")
 %% Generate metric across trials
 strideTime_3trials_r = [];
 strideTime_3trials_l = [];
@@ -123,5 +146,8 @@ sp_data.stepLength.rightleg.varCoeff = (std (stepLength_3trials_r(1,SL_r(1)+1:en
 sp_data.stepLength.leftleg.('mean') = mean (stepLength_3trials_l(1,SL_l(1)+1:end));
 sp_data.stepLength.leftleg.('std') = std (stepLength_3trials_l(1,SL_l(1)+1:end));
 sp_data.stepLength.leftleg.varCoeff = (std (stepLength_3trials_l(1,SL_l(1)+1:end)))/(mean (stepLength_3trials_l(1,SL_l(1)+1:end)));
+
+
+display("Store global variable (to be done)");
 
 display("End of the process")
