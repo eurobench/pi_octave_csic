@@ -6,13 +6,6 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
     thigh = subject_data.thigh;
     trunk = subject_data.trunk;
     foot = subject_data.foot;
-    % foot = 15;
-
-    % if ~isBatch
-    %     color='bgr';
-    %     h = figure('Name','Foot-foot distance','NumberTitle','off');
-    %     set(h,'units','normalized','outerposition',[0 0 1 1]);
-    % end
 
     %% calculate stride time and step time
     HS_right = event_data.heelstrike.rightleg;
@@ -90,22 +83,6 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
                                        floor(mean(sp_data.('stepTime').('rightleg').data) * frequency/5));
     sp_data.('stepLength').rightleg.data = step_length_rl(1:2:end)';
     sp_data.('stepLength').leftleg.data = step_length_rl(2:2:end)';
-
-    %% plot foot-foot distance
-    % if ~isBatch
-    %     subplot(3,1,trial)
-    %     h(1)= plot (feetDist(:,1), feetDist(:,2),color(trial));
-    %     title(['Trial ', num2str(trial)])
-    %     hold on
-    %     h(2)= plot (feetDist(index,1),step_length_rl,['o' color(trial)]); % plot peaks
-    %     for i=1:length(event_data.heelstrike.rightleg.(trialName))
-    %         h(3)= plot ([event_data.heelstrike.rightleg.(trialName)(i),event_data.heelstrike.rightleg.(trialName)(i)],[0,max(feetDist(:,2))],'k');
-    %     end
-    %     for i=1:length(event_data.heelstrike.leftleg.(trialName))
-    %         h(4)= plot ([event_data.heelstrike.leftleg.(trialName)(i),event_data.heelstrike.leftleg.(trialName)(i)],[0,max(feetDist(:,2))],'--k');
-    %     end
-    %     legend (h(1:4),['foot-foot distance'],'peaks','right HS','left HS')
-    % end
 
     sp_data.stepLength.rightleg.allmeans = mean(sp_data.stepLength.rightleg.data);
     sp_data.stepLength.rightleg.allstds = std(sp_data.stepLength.rightleg.data);
