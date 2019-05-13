@@ -2,8 +2,6 @@
 
 function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_data, event_data)
 
-    stepTime_3trials_r = [];
-
     shank = subject_data.shank;
     thigh = subject_data.thigh;
     trunk = subject_data.trunk;
@@ -40,14 +38,6 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
         sp_data.('stepTime').('rightleg').data = step_time_all(2:2:end);
         sp_data.('stepTime').('leftleg').data = step_time_all(1:2:end);
     end
-
-    stepTime_3trials_r = [stepTime_3trials_r sp_data.('stepTime').('rightleg').data];
-
-    % Length
-    %sT_r(trial) = length(strideTime_3trials_r);
-    %sT_l(trial) = length(strideTime_3trials_l);
-    %ST_r(trial) = length(stepTime_3trials_r);
-    %ST_l(trial) = length(stepTime_3trials_l);
 
     %% calculate Joint Positions
     HIP_angle_r = angles_data(:, 2:4);
@@ -94,7 +84,10 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
     end
 
     % find peaks of the foot-foot distance (taking away peaks closer than 1/5 stepTime)
-    [step_length_rl index] = findpeaks(feetDist(:, 2), 'MinPeakDistance', floor(mean(stepTime_3trials_r) * frequency/5));
+
+    [step_length_rl index] = findpeaks(feetDist(:, 2),
+                                       'MinPeakDistance',
+                                       floor(mean(sp_data.('stepTime').('rightleg').data) * frequency/5));
     sp_data.('stepLength').rightleg.data = step_length_rl(1:2:end)';
     sp_data.('stepLength').leftleg.data = step_length_rl(2:2:end)';
 

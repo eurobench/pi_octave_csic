@@ -26,13 +26,14 @@ allAngles = subjectAllData.data.angles.meters15.untilTurnTrials;
 frequency = subjectAllData.data.frequency;
 
 isBatch = false;
-nTrial = 3
+nTrial = 3;
 
 %% segment gait cycle
 % segment gait for 15 meters. We find each step with the right and left
 % leg using the knee extension. Then, we save the segments in the structure
 % data.
 
+display("segment the trials")
 
 for i = 1:nTrial
     iTrial = strcat('trial',int2str(i));
@@ -57,6 +58,8 @@ end
 %as the heel strike. Since we used the leg extension to mark the
 %beginning of each stide, this will coincide with the heel strike.
 
+display("Calculate the events")
+
 for i = 1:nTrial
     iTrial = strcat('trial',int2str(i));
     allEventData.(iTrial) = calculate_events(segmentData.(iTrial));
@@ -70,6 +73,8 @@ end
 %   Note: These parameters are only calculated with the strides until the
 %   patient reaches the turn
 
+display("Compute spatiotemporal information")
+
 for i = 1:nTrial
     iTrial = strcat('trial',int2str(i));
     angles = allAngles.(iTrial);
@@ -77,6 +82,7 @@ for i = 1:nTrial
     sp_data.(iTrial) = calculate_spatiotemporal(subjectData, frequency, angles, eventData);
 end
 
+display("Generate metric across trials")
 %% Generate metric across trials
 strideTime_3trials_r = [];
 strideTime_3trials_l = [];
@@ -84,7 +90,6 @@ stepTime_3trials_r = [];
 stepTime_3trials_l = [];
 stepLength_3trials_r = [];
 stepLength_3trials_l = [];
-
 
 for i = 1:nTrial
     iTrial = strcat('trial',int2str(i));
@@ -130,3 +135,5 @@ sp_data.stepLength.rightleg.varCoeff = (std (stepLength_3trials_r(1,SL_r(1)+1:en
 sp_data.stepLength.leftleg.('mean') = mean (stepLength_3trials_l(1,SL_l(1)+1:end));
 sp_data.stepLength.leftleg.('std') = std (stepLength_3trials_l(1,SL_l(1)+1:end));
 sp_data.stepLength.leftleg.varCoeff = (std (stepLength_3trials_l(1,SL_l(1)+1:end)))/(mean (stepLength_3trials_l(1,SL_l(1)+1:end)));
+
+display("End of the process")
