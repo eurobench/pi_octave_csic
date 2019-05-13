@@ -25,7 +25,6 @@ subjectData = subjectAllData.data.anthropometry;
 allAngles = subjectAllData.data.angles.meters15.untilTurnTrials;
 frequency = subjectAllData.data.frequency;
 
-isBatch = false;
 nTrial = 3;
 
 %% segment gait cycle
@@ -38,19 +37,8 @@ display("segment the trials")
 for i = 1:nTrial
     iTrial = strcat('trial',int2str(i));
     angles = allAngles.(iTrial);
-    segmentData.(iTrial) = segment_gait(angles, isBatch);
+    segmentData.(iTrial) = segment_gait(angles);
 end
-
-%Now we plot the angles of during each stride for every joint, for the
-%three trials, using the right and left leg strides
-%plot_segments(data.angles.meters15.untilTurnTrials, sub_num);
-
-%% Plot all segmented trials
-%We plot all the angles for every stride, but we plot the angles of the
-%right side items using the right side strides, and the left side items
-%using the left side strides
-
-%plotAllSegmentedTrials( data ,sub_num);
 
 %% identify events: heel strike (HS), etc...
 %In the function calculate_events,we are simply saving the beginning of each stride
