@@ -12,13 +12,13 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
     HS_left = event_data.heelstrike.leftleg;
 
     % stride time, right leg, in seconds
-    sp_data.('strideTime').('rightleg').data = diff(HS_right)/frequency;
+    sp_data.('strideTime').('rightleg').data = diff(HS_right);%/frequency;
 
     % stride time, left leg, in seconds
-    sp_data.('strideTime').('leftleg').data = diff(HS_left)/frequency;
+    sp_data.('strideTime').('leftleg').data = diff(HS_left);%/frequency;
 
     % step time (= time from contralateral to ipsilateral HS), in seconds
-    step_time_all = diff(sort([HS_right HS_left]))/frequency; % all step times not classified by side
+    step_time_all = diff(sort([HS_right HS_left]));%/frequency; % all step times not classified by side
 
     if HS_left(1) < HS_right(1)
         % first heel strike: left --> first step time: right

@@ -38,4 +38,26 @@
     anthropomorphic_data = read_simple_yaml(anthro_file)
 
     sp_data = calculate_spatiotemporal(anthropomorphic_data, frequency, angles, eventData);
+
+    display("Store results")
+
+    subNum = 1
+    i = 1
+
+    filename = strcat("pi_stride_time_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.strideTime.rightleg.data, 'delimiter', ' ');
+    filename = strcat("pi_stride_time_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.strideTime.leftleg.data, 'delimiter', ' ');
+
+    filename = strcat("pi_step_time_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.stepTime.rightleg.data, 'delimiter', ' ');
+    filename = strcat("pi_step_time_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.stepTime.leftleg.data, 'delimiter', ' ');
+
+    filename = strcat("pi_step_length_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.stepLength.rightleg.data, 'delimiter', ' ');
+    filename = strcat("pi_step_length_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    dlmwrite(filename, sp_data.stepLength.leftleg.data, 'delimiter', ' ');
+
 %end
+
