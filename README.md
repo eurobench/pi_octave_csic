@@ -43,33 +43,34 @@ We analysed 61 healthy subjects in this experiment.  We captured motion with an 
 - Relative angles of the inertial sensors (experimentalData.subjectX.data.angles.meters15.untilTurnTrials.TrialX)
 - Quaternions (experimentalData.subjectX.data.quaternions.meters15.raw)
 - Anthropometric data of the subject (experimentalData.subjectX.data.anthropometry):
- - Shank,Thigh, Arm, Trunk, Foot
+  - Shank,Thigh, Arm, Trunk, Foot
 - Sampling frequency: 50 Hz
 
 ## FUNCTIONS
 
-**find_leg_extension.m**
+### ```find_leg_extension.m```
 
 This function detects each leg extension as the minimum after each peak in the angle of the knee.
 
 It returns a matrix, where the first row contains the angle at leg extension (a negative angle in this case), and the second row will contain the indeces where the leg extension occurs.
 
-**segment_gait.m**
+### ```segment_gait.m```
 
 This function segments the gait cycle using the leg extension. To do that:
+
 - As an input, it takes the data matrix experimentalData
 - It calls the function find_leg_extension (explained above)
 - It saves each segment in:
 
 experimentalData.subjectX.data.angles.meters15.untilTurnTrials.segments.Xleg.trialX.segmentX
 
-**calculate_events.m**
+### ```calculate_events.m```
 
 In this function we are simply saving the beginning of each stride (segment) in another part of the structure, and we are saving it as the heel strike.
 
 Since we used the leg extension to mark the beginning of each stide, this will coincide with the heel strike.
 
-**calculate_spatiotemporal.m**
+### ```calculate_spatiotemporal.m```
 
 This function:
 
@@ -81,19 +82,18 @@ This function:
 ## Octave commands
 
 To enable the code under octave, additional packages are needed.
-Follow [these recommandation](https://octave.org/doc/v4.2.1/Installing-and-Removing-Packages.html) to make the installation.
 
 ```console
 sudo apt-get install liboctave-dev
 ```
 
-Packages needed:
+Follow [these recommandations](https://octave.org/doc/v4.2.1/Installing-and-Removing-Packages.html) to make the installation of the additional packages needed:
 
-* [control](https://octave.sourceforge.io/control/index.html)
-* [signal](https://octave.sourceforge.io/signal/index.html)
-* [mapping](https://octave.sourceforge.io/mapping/index.html)
-* [statistics](https://octave.sourceforge.io/statistics/index.html)
-* [io](https://octave.sourceforge.io/io/index.html)
+- [control](https://octave.sourceforge.io/control/index.html)
+- [signal](https://octave.sourceforge.io/signal/index.html)
+- [mapping](https://octave.sourceforge.io/mapping/index.html)
+- [io](https://octave.sourceforge.io/io/index.html)
+- [statistics](https://octave.sourceforge.io/statistics/index.html)
 
 Once octave is configured:
 
