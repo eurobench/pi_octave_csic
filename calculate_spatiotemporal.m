@@ -64,9 +64,12 @@ function sp_data = calculate_spatiotemporal (subject_data, frequency, angles_dat
     ANKLE_angle_l = angles_data(:, idx_ankle_l);
 
     time = angles_data(:, find(strcmp(header, 'timestamp')));
-    pelvis_angle = 10; % reference angle (pelvis) in space. All other segments will be plotted with respect to this.
+    % reference angle (pelvis) in space.
+    % All other segments will be plotted with respect to this.
+    pelvis_angle = 10;
 
-    first_right_HS = event_data.heelstrike.rightleg(1); % first heel strike of the right leg (taken as time & space reference)
+    % first heel strike of the right leg (taken as time & space reference)
+    first_right_HS = event_data.heelstrike.rightleg(1);
     t = 0;
 
     feetDist = [];
