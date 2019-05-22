@@ -1,7 +1,18 @@
-%function result = computePI(csv_file, anthro_file)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% computePI.m
+%
+% Given a motion capture file and anthropomorphic data, computes PI metrics
+% Stride time, step time, step length
+%
+% Copyright Tecnalia 2019
+% Anthony Remazeilles
+% License Beerware
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function result = computePI(csv_file, anthro_file)
 
-    csv_file = "../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv";
-    anthro_file = "../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml";
+    %csv_file = "../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv";
+    %anthro_file = "../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml";
 
     disp(["Input parameters: ", csv_file, " ", anthro_file])
     isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
@@ -58,5 +69,5 @@
     filename = strcat(name, "_pi_step_length_left", ".txt");
     dlmwrite(filename, sp_data.stepLength.leftleg.data, 'delimiter', ' ');
 
-%end
+end
 
