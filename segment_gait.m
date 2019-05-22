@@ -6,7 +6,7 @@
 % Jose Gonzalez-Vargas
 % v0.1 2016/08/08
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function segment_data = segment_gait(angles)
+function segment_data = segment_gait(angles, header)
 
     % segment using the right leg
 
@@ -18,8 +18,8 @@ function segment_data = segment_gait(angles)
     %find_leg_extension also plots the angle for every trial, the
     %threshold use to find the peaks, and each leg extension.
 
-    % Column 5 corresponds to right knee angle in the angle .capa file
-    [segments_right threshold_right] = find_leg_extension(angles(:, 5));
+    col_r_knee_z = find(strcmp(header, 'r_knee_z'));
+    [segments_right threshold_right] = find_leg_extension(angles(:, col_r_knee_z));
 
     %Now, in data we save the segments. Each segment is one step with
     %the right leg
@@ -33,8 +33,8 @@ function segment_data = segment_gait(angles)
 
     segment_element='Left Knee';
 
-    % Column 14 corresponds to left knee angle in the angle .capa file
-    [segments_left threshold_left] = find_leg_extension(angles(:, 14));
+    col_l_knee_z = find(strcmp(header, 'l_knee_z'))
+    [segments_left threshold_left] = find_leg_extension(angles(:, col_l_knee_z));
 
     for j = 1:length(segments_left) - 1
         segmentName = strcat('segment', int2str(j));
