@@ -1,5 +1,10 @@
 %%Additional command to get it working
 
+% deprecated file
+
+display("Depreacted file, kept for track records")
+return
+
 isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
 if isOctave

@@ -34,7 +34,7 @@ function result = computePI(csv_file, anthro_file)
     angles(1, :)
 
     display("segment the trial")
-    segmentData = segment_gait(angles);
+    segmentData = segment_gait(angles, header);
 
     display("Calculate the event")
 
@@ -48,7 +48,7 @@ function result = computePI(csv_file, anthro_file)
     % read anthropomorphic data
     anthropomorphic_data = read_simple_yaml(anthro_file)
 
-    sp_data = calculate_spatiotemporal(anthropomorphic_data, frequency, angles, eventData);
+    sp_data = calculate_spatiotemporal(anthropomorphic_data, frequency, angles, header, eventData);
 
     display("Store results")
 
