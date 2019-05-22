@@ -1,11 +1,31 @@
-## PI CSIC
+# PI CSIC
+
+## Current usage
+
+The original entry point `Main.m` is deprecated, and left for having trace of the metric process across trials.
+
+The current entry point is [computePI.m](computePI.m).
+Assuming we have in `../sample_data` the repository [sample_data](https://git.code.tecnalia.com/eurobench/sample_data), then a typical command would be:
+
+```octave
+computePI("../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv", "../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml")
+```
+
+The two parameters expected are:
+
+- `motion_capture.csv`: a `csv` file containing the joint angles recorded, assuming the first column ia a timestamp in second.
+- `anthropometry.yaml`: yaml file containing anthropometric data related to the subject.
+
+The current code is to be launched **per trial**.
+There is no intertrial computation for the moment.
+
+## Initial code structure
 
 The current documentation is a copy-paste of an email description.
 
 Here I attach a [drive link][drive_link] to our Matlab algorithm to obtain some spatiotemporal data (step length, step and stride time) for human gait.
 
 [drive_link]: https://drive.google.com/file/d/1MkoTb8KmQFJ2ReeoejvMpYuTjFyTbwwf/view?usp=sharing
-
 
 I send the main algorithm (Main.m) that uses four functions (listed below) to calculate pre-processed data in order to obtain the desired spatiotemporals:
 
@@ -25,7 +45,6 @@ We analysed 61 healthy subjects in this experiment.  We captured motion with an 
 - Anthropometric data of the subject (experimentalData.subjectX.data.anthropometry):
  - Shank,Thigh, Arm, Trunk, Foot
 - Sampling frequency: 50 Hz
-
 
 ## FUNCTIONS
 
@@ -64,7 +83,7 @@ This function:
 To enable the code under octave, additional packages are needed.
 Follow [these recommandation](https://octave.org/doc/v4.2.1/Installing-and-Removing-Packages.html) to make the installation.
 
-```
+```console
 sudo apt-get install liboctave-dev
 ```
 
@@ -77,7 +96,8 @@ Packages needed:
 * [io](https://octave.sourceforge.io/io/index.html)
 
 Once octave is configured:
-```
+
+```console
 pkg load signal
 pkg load mapping
 pkg load statistics
