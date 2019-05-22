@@ -41,22 +41,21 @@
 
     display("Store results")
 
-    subNum = 1
-    i = 1
+    [filepath, name, ext] = fileparts(csv_file);
 
-    filename = strcat("pi_stride_time_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    filename = strcat(name, "_pi_stride_time_right", ".txt");
     dlmwrite(filename, sp_data.strideTime.rightleg.data, 'delimiter', ' ');
-    filename = strcat("pi_stride_time_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    filename = strcat(name, "_pi_stride_time_left", ".txt");
     dlmwrite(filename, sp_data.strideTime.leftleg.data, 'delimiter', ' ');
 
-    filename = strcat("pi_step_time_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    filename = strcat(name, "_pi_step_time_right", ".txt");
     dlmwrite(filename, sp_data.stepTime.rightleg.data, 'delimiter', ' ');
-    filename = strcat("pi_step_time_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    filename = strcat(name, "_pi_step_time_left", ".txt");
     dlmwrite(filename, sp_data.stepTime.leftleg.data, 'delimiter', ' ');
 
-    filename = strcat("pi_step_length_right_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    filename = strcat(name, "_pi_step_length_right", ".txt");
     dlmwrite(filename, sp_data.stepLength.rightleg.data, 'delimiter', ' ');
-    filename = strcat("pi_step_length_left_subject_", int2str(subNum), "_trial_", int2str(i), ".txt");
+    filename = strcat(name, "_pi_step_length_left", ".txt");
     dlmwrite(filename, sp_data.stepLength.leftleg.data, 'delimiter', ' ');
 
 %end
