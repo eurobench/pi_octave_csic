@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt-get update \
-    && apt-get install less \
+    && apt-get install -y less \
     && apt-get install -y wget \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
@@ -23,5 +23,6 @@ RUN cd /home/octave \
 USER octave
 WORKDIR /home/octave
 
+# TODO check if this is required
 VOLUME ["/source"]
 # ENTRYPOINT ["octave"] # When this is uncommented the container runs ocatave when accesing to it   
