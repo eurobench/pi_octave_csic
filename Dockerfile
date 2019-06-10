@@ -10,6 +10,7 @@ RUN sh ./install.sh && rm install.sh
 RUN useradd -ms /bin/bash octave
 ADD *.m /home/octave/
 RUN chown -R octave:octave /home/octave/
+RUN mkdir /home/octave/result
 RUN cd /home/octave \ 
     && wget -O control-3.2.0.tar.gz https://octave.sourceforge.io/download.php?package=control-3.2.0.tar.gz \
     && wget -O statistics-1.4.1.tar.gz https://octave.sourceforge.io/download.php?package=statistics-1.4.1.tar.gz \
@@ -18,7 +19,6 @@ RUN cd /home/octave \
     && wget -O mapping-1.2.1.tar.gz https://octave.sourceforge.io/download.php?package=mapping-1.2.1.tar.gz \
     && chmod 755 package_install.m \
     && ./package_install.m
-
 
 USER octave
 WORKDIR /home/octave
