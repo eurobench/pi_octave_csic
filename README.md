@@ -115,7 +115,7 @@ chmod 755 pi_csic.m
 The way of calling this PI from the shell is the following one:
 
 ```
-./calling_script.m ../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv ../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml
+./pi_csic.m ../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv ../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml $path_where_store_results
 ```
 
 At this momment the script accepts two arguments (not less, not more).
@@ -125,5 +125,5 @@ At this momment the script accepts two arguments (not less, not more).
 Run the following command in order to create the docker image for this PI:
 
 ```
-docker built . -t pis_csic_docker_image
+docker built . -t pi_csic_docker_image
 ```
