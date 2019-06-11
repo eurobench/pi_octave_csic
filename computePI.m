@@ -9,12 +9,12 @@
 % License Beerware
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function result = computePI(csv_file, anthro_file)
+function result = computePI(csv_file, anthro_file, result_dir)
 
     %csv_file = "../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv";
     %anthro_file = "../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml";
 
-    disp(["Input parameters: ", csv_file, " ", anthro_file])
+    disp(["Input parameters: ", csv_file, " ", anthro_file, " ", result_dir])
     isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
     if isOctave
@@ -54,19 +54,19 @@ function result = computePI(csv_file, anthro_file)
 
     [filepath, name, ext] = fileparts(csv_file);
 
-    filename = strcat(name, "_pi_stride_time_right", ".txt");
+    filename = strcat(result_dir, "/", name, "_pi_stride_time_right", ".txt");
     dlmwrite(filename, sp_data.strideTime.rightleg.data, 'delimiter', ' ');
-    filename = strcat(name, "_pi_stride_time_left", ".txt");
+    filename = strcat(result_dir, "/", name, "_pi_stride_time_left", ".txt");
     dlmwrite(filename, sp_data.strideTime.leftleg.data, 'delimiter', ' ');
 
-    filename = strcat(name, "_pi_step_time_right", ".txt");
+    filename = strcat(result_dir, "/", name, "_pi_step_time_right", ".txt");
     dlmwrite(filename, sp_data.stepTime.rightleg.data, 'delimiter', ' ');
-    filename = strcat(name, "_pi_step_time_left", ".txt");
+    filename = strcat(result_dir, "/", name, "_pi_step_time_left", ".txt");
     dlmwrite(filename, sp_data.stepTime.leftleg.data, 'delimiter', ' ');
 
-    filename = strcat(name, "_pi_step_length_right", ".txt");
+    filename = strcat(result_dir, "/", name, "_pi_step_length_right", ".txt");
     dlmwrite(filename, sp_data.stepLength.rightleg.data, 'delimiter', ' ');
-    filename = strcat(name, "_pi_step_length_left", ".txt");
+    filename = strcat(result_dir, "/", name, "_pi_step_length_left", ".txt");
     dlmwrite(filename, sp_data.stepLength.leftleg.data, 'delimiter', ' ');
 
 end
