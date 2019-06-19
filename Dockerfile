@@ -10,9 +10,9 @@ RUN sh ./install.sh && rm install.sh
 RUN useradd -ms /bin/bash octave
 ADD *.m /home/octave/
 RUN chown -R octave:octave /home/octave/
-RUN mkdir /home/octave/result \
-    && mkdir /home/octave/data
-RUN chown -R octave:octave /home/octave/result/
+RUN mkdir /out \
+    && mkdir /in
+RUN chown -R octave:octave /out/
 RUN cd /home/octave \ 
     && wget -O control-3.2.0.tar.gz https://octave.sourceforge.io/download.php?package=control-3.2.0.tar.gz \
     && wget -O statistics-1.4.1.tar.gz https://octave.sourceforge.io/download.php?package=statistics-1.4.1.tar.gz \
