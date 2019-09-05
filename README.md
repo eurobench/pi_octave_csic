@@ -125,5 +125,5 @@ At this momment the script accepts two arguments (not less, not more).
 Run the following command in order to create the docker image for this PI:
 
 ```
-docker built . -t pi_csic_docker_image
+docker build . -t pi_csic_docker_image
 ```
