@@ -25,7 +25,7 @@ RUN cd /home/octave \
 # cp all code files into user home dir
 RUN mkdir /home/octave/src
 ADD src /home/octave/src/
-ADD pi_csic.m /home/octave/
+ADD run_pi /home/octave/
 # set the user as owner of the copied files.
 RUN chown -R octave:octave /home/octave/
 # create folder for receiving input files and generated files
