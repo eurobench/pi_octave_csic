@@ -1,3 +1,6 @@
+variables:
+  GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
+
 before_script:
   - echo "New job started"
 
