@@ -3,7 +3,8 @@ variables:
 
 before_script:
   - echo "New job started"
-
+  - echo "Project name: ${CI_PROJECT_NAME}.  "
+  - echo "Commit ref: ${CI_COMMIT_REF_NAME}. "
 gen_docker:
   tags:
     - ci
