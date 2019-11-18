@@ -8,7 +8,7 @@ gen_docker:
   tags:
     - ci
   script:
-    - docker build . -t pi_csic_docker_image_tmp
+    - docker build . -t pi_csic_docker_image
     #  - docker save -o pi_csic_docker_image.tar pi_csic_docker_image
 
 after_script:
