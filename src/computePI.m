@@ -103,7 +103,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     value_str = sprintf("%s]", value_str);
     fprintf(file_id, value_str);
     fclose(file_id);
-    
+
     file_id = fopen(strcat(result_dir, "/", name, "_pi_step_length_right", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";

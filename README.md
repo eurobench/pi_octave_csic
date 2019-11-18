@@ -106,16 +106,16 @@ Main
 
 ## Executable script
 
-Another script has been added (pi_csic.m) in order to launch this PI from the shell of a machine with octave installed. The permissions of this file must be changed in order to be executable:
+Another script has been added (`run_pi`) in order to launch this PI from the shell of a machine with octave installed. The permissions of this file must be changed in order to be executable:
 
-```
-chmod 755 pi_csic.m
+```console
+chmod 755 run_pi
 ```
 
-The way of calling this PI from the shell is the following one:
+The way of calling this PI from the shell is the following one (assuming folder `./test_data/input/` contains the input data, and that `./test_data/output` exists and will contain the resulting files:
 
-```
-./pi_csic.m ../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv ../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml $path_where_store_results
+```console
+./run_pi ./test_data/input/subject_10_trial_01.csv ./test_data/input/subject_10_anthropometry.yaml ./test_data/output
 ```
 
 At this momment the script accepts two arguments (not less, not more).
@@ -124,6 +124,13 @@ At this momment the script accepts two arguments (not less, not more).
 
 Run the following command in order to create the docker image for this PI:
 
-```
+```console
 docker build . -t pi_csic_docker_image
+```
+
+## Launch the docker image
+Assuming the `test_data/input/` contains the input data, and that the directory `test_data/output/` is created, and will contain the PI output:
+
+```shell
+docker run --rm -v $PWD/test_data/input:/in -v $PWD/test_data/output:/out pi_csic_docker_image ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out
 ```

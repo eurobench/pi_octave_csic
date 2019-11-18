@@ -1,0 +1,15 @@
+variables:
+  GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
+
+before_script:
+  - echo "New job started"
+
+gen_docker:
+  tags:
+    - ci
+  script:
+    - docker build . -t pi_csic_docker_image
+    #  - docker save -o pi_csic_docker_image.tar pi_csic_docker_image
+
+after_script:
+  - echo "Job finished, well done"
