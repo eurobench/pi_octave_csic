@@ -13,7 +13,7 @@ gen_docker:
     - docker build . -t pi_csic_docker_image
     - echo "Image generated"
     - echo $CI_PROJECT_NAME
-    - echo %CI_COMMIT_REF_NAME%
+    - echo %CI_COMMIT_REF_NAME
     #  - docker save -o pi_csic_docker_image.tar pi_csic_docker_image
 
 after_script:
