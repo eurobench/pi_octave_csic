@@ -3,17 +3,16 @@ variables:
 
 before_script:
   - 'echo "New job started"'
-  - 'echo "Project name: ${CI_PROJECT_NAME}."'
-  - 'echo "Commit ref: ${CI_COMMIT_REF_NAME}."'
+  - 'echo "Project name: %CI_PROJECT_NAME."'
+  - 'echo "Commit ref: %CI_COMMIT_REF_NAME."'
 
 gen_docker:
   tags:
     - ci
   script:
     - docker build . -t pi_csic_docker_image
-    - echo "Project name: ${CI_PROJECT_NAME}."
-    - echo "Commit ref: ${CI_COMMIT_REF_NAME}."
-
+    - echo "Project name: %CI_PROJECT_NAME."
+    - echo "Commit ref: %CI_COMMIT_REF_NAME."
     #  - docker save -o pi_csic_docker_image.tar pi_csic_docker_image
 
 after_script:
