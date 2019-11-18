@@ -2,9 +2,10 @@ variables:
   GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
 
 before_script:
-  - echo "New job started"
-  - echo "Project name: ${CI_PROJECT_NAME}.  "
-  - echo "Commit ref: ${CI_COMMIT_REF_NAME}. "
+  - 'echo "New job started"'
+  - 'echo "Project name: ${CI_PROJECT_NAME}."'
+  - 'echo "Commit ref: ${CI_COMMIT_REF_NAME}."'
+
 gen_docker:
   tags:
     - ci
