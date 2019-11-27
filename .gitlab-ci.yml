@@ -2,14 +2,23 @@ variables:
   GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
 
 before_script:
-  - echo "New job started"
+  - 'echo "New job started"'
+  - 'echo "Project name: $CI_PROJECT_NAME."'
+  - 'echo "Commit ref: $CI_COMMIT_REF_NAME."'
 
 gen_docker:
   tags:
     - ci
   script:
-    - docker build . -t pi_csic_docker_image
-    #  - docker save -o pi_csic_docker_image.tar pi_csic_docker_image
-
+    - docker build . -t ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+    - echo "Image generated"
+    - echo $CI_PROJECT_NAME
+    - echo $CI_COMMIT_REF_NAME
+    - 'echo "name: $CI_PROJECT_NAME:$CI_COMMIT_REF_NAME"'
+    - 'echo "artifactory url: $ARTIFACT_DOCKER_URL"'
+    #- docker save -o pi_csic_docker_image.tar pi_csic_docker_image
+    - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
+    - docker push ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+    
 after_script:
   - echo "Job finished, well done"
