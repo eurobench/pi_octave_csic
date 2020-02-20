@@ -1,7 +1,6 @@
 # PI CSIC
 
-[![license - apache 2.0](https://img.shields.io/:license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Ap
-ache-2.0)
+[![license - apache 2.0](https://img.shields.io/:license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Copyright CSIC & Tecnalia 2020
 
@@ -38,7 +37,7 @@ pkg load statistics
 Main
 ```
 
-Note that all these installation steps can be run followinf the `RUN` command of the [Dockerfile](Dockerfile):
+Note that all these installation steps can be run following the `RUN` command of the [Dockerfile](Dockerfile):
 
 ```shell
 sh ./install.sh
