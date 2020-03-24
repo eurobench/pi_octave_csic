@@ -37,7 +37,7 @@ class DockerCallTest(unittest.TestCase):
         print("Input data in: {}".format(self.input_data_path))
 
         self.output_data_path = tempfile.mkdtemp()
-
+        os.chmod(self.output_data_path, 0o777)
 
         #tmp_content = os.listdir("/tmp")
         #print("TMP folder content BEFORE: {}".format(tmp_content))
