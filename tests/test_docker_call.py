@@ -37,8 +37,15 @@ class DockerCallTest(unittest.TestCase):
 
         self.output_data_path = "/tmp/test_docker/"
 
+        tmp_content = os.listdir("/tmp")
+        print("TMP folder content BEFORE: {}".format(tmp_content))
+
         if not os.path.exists(self.output_data_path):
             os.makedirs(self.output_data_path)
+
+
+        tmp_content = os.listdir("/tmp")
+        print("TMP folder content AFTER: {}".format(tmp_content))
 
         # preparing the generation command
         self.command = "docker run --rm -v {}:/in -v {}:/out pi_csic_docker_image ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out".format(self.input_data_path, self.output_data_path)
@@ -50,12 +57,11 @@ class DockerCallTest(unittest.TestCase):
 
         """
 
-        print("So far so good")
+        print("Launching docker command")
         # TODO how to catch the result of the command (error or success)
         os.system(self.command)
 
-        #print("Process result: {}".format(result))
-        print("Done")
+        print("Docker command launched")
 
         # check generated files
         output_files = os.listdir(self.output_data_path)
@@ -82,7 +88,7 @@ class DockerCallTest(unittest.TestCase):
                 for line in f:
                     lines_groundtruth.append(line)
 
-            #print("Comparing:\n{}\n with \n{}".format(lines_generated, lines_groundtruth))
+            # print("Comparing:\n{}\n with \n{}".format(lines_generated, lines_groundtruth))
             self.assertListEqual(lines_generated, lines_groundtruth)
 
         print("Done")
