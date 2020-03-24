@@ -19,6 +19,8 @@ class DockerCallTest(unittest.TestCase):
     """gather program tests
     """
 
+    DOCKER_IMAGE = "pi_csic_docker_image"
+
     def setUp(self):
         """Common initialization operations
         """
@@ -47,7 +49,10 @@ class DockerCallTest(unittest.TestCase):
         print("TMP folder content AFTER: {}".format(tmp_content))
 
         # preparing the generation command
-        self.command = "docker run --rm -v {}:/in -v {}:/out pi_csic_docker_image ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out".format(self.input_data_path, self.output_data_path)
+        self.command = "docker run --rm -v {}:/in -v {}:/out {} ".format(self.input_data_path,
+                                                                         self.output_data_path,
+                                                                         self.DOCKER_IMAGE)
+        self.command += "./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out"
 
         print("Commande generated: \n{}".format(self.command))
 
@@ -92,6 +97,11 @@ class DockerCallTest(unittest.TestCase):
 
         print("Done")
 
+
 if __name__ == '__main__':
-    print("test_docker_call -- begin")
+    print("test_docker_call -- begin: {}".format(os.environ.get('DOCKER_IMAGE')))
+
+    DockerCallTest.DOCKER_IMAGE = os.environ.get('DOCKER_IMAGE', DockerCallTest.DOCKER_IMAGE)
+    # TODO using https://stackoverflow.com/questions/11380413/python-unittest-passing-arguments
+    # but it is mentioned as not preferrable.
     unittest.main()
