@@ -14,6 +14,7 @@ import os
 import io
 import unittest
 
+
 class DockerCallTest(unittest.TestCase):
     """gather program tests
     """
@@ -25,7 +26,7 @@ class DockerCallTest(unittest.TestCase):
         print("Setting up the test")
 
         rel_path = os.path.dirname(__file__)
-        print ("Done")
+        print("Done")
 
 
         self.input_data_path = os.path.abspath(os.getcwd() + "/" + rel_path + "/data/input")
@@ -50,7 +51,7 @@ class DockerCallTest(unittest.TestCase):
         """
 
         print("So far so good")
-        #TODO how to catch the result of the command (error or success)
+        # TODO how to catch the result of the command (error or success)
         os.system(self.command)
 
         #print("Process result: {}".format(result))
@@ -65,7 +66,7 @@ class DockerCallTest(unittest.TestCase):
         # Check the content of each file
 
         for filename in output_files:
-            print ("comparing file: {}".format(filename))
+            print("comparing file: {}".format(filename))
 
             file_generated = self.output_data_path + "/" + filename
 
@@ -74,16 +75,14 @@ class DockerCallTest(unittest.TestCase):
                 for line in f:
                     lines_generated.append(line)
 
-            #lines_generated = [line.rstrip('\n') for line in open(file_generated)]
-
             file_groundtruth = self.output_groundtruth_path + "/" + filename
-            #lines_groundtruth = [line.rstrip('\n') for line in open(file_groundtruth)]
 
             lines_groundtruth = list()
             with open(file_groundtruth) as f:
                 for line in f:
                     lines_groundtruth.append(line)
 
+            #print("Comparing:\n{}\n with \n{}".format(lines_generated, lines_groundtruth))
             self.assertListEqual(lines_generated, lines_groundtruth)
 
         print("Done")
