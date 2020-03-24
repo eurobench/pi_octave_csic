@@ -24,6 +24,7 @@ test_docker:
     - python3 tests/test_docker_call.py
 
 deploy_docker:
+  stage: deploy
   tags:
     - ci
   script:
