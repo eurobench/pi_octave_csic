@@ -13,6 +13,8 @@ before_script:
 
 gen_docker:
   stage: build
+  tags:
+    - ci
   script:
     - 'echo "name: $CI_PROJECT_NAME:$CI_COMMIT_REF_NAME"'
     - 'echo "artifactory url: $ARTIFACT_DOCKER_URL"'
@@ -20,6 +22,8 @@ gen_docker:
 
 test_docker:
   stage: test
+  tags:
+    - ci
   script:
     - python3 tests/test_docker_call.py
 
