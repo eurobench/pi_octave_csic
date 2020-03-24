@@ -45,8 +45,12 @@ class DockerCallTest(unittest.TestCase):
         if not os.path.exists(self.output_data_path):
             os.makedirs(self.output_data_path)
 
+        tmp_content = os.listdir(self.output_data_path)
+        print("result folder content: {}".format(tmp_content))
+
         tmp_content = os.listdir("/tmp")
         print("TMP folder content AFTER: {}".format(tmp_content))
+
 
         # preparing the generation command
         self.command = "docker run --rm -v {}:/in -v {}:/out {} ".format(self.input_data_path,
