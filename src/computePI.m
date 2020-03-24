@@ -53,6 +53,9 @@ function result = computePI(csv_file, anthro_file, result_dir)
     display("Store results")
 
     [filepath, name, ext] = fileparts(csv_file);
+    filename = strcat(result_dir, "/", name, "_pi_stride_time_right", ".yaml")
+
+    disp(["Filename: ", filename])
 
     file_id = fopen(strcat(result_dir, "/", name, "_pi_stride_time_right", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
@@ -66,6 +69,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     value_str = sprintf("%s]", value_str);
     fprintf(file_id, value_str);
     fclose(file_id);
+
     file_id = fopen(strcat(result_dir, "/", name, "_pi_stride_time_left", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
@@ -91,6 +95,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     value_str = sprintf("%s]", value_str);
     fprintf(file_id, value_str);
     fclose(file_id);
+
     file_id = fopen(strcat(result_dir, "/", name, "_pi_step_time_left", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
@@ -116,6 +121,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     value_str = sprintf("%s]", value_str);
     fprintf(file_id, value_str);
     fclose(file_id);
+
     file_id = fopen(strcat(result_dir, "/", name, "_pi_step_length_left", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";

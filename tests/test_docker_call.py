@@ -43,7 +43,6 @@ class DockerCallTest(unittest.TestCase):
         if not os.path.exists(self.output_data_path):
             os.makedirs(self.output_data_path)
 
-
         tmp_content = os.listdir("/tmp")
         print("TMP folder content AFTER: {}".format(tmp_content))
 
