@@ -15,6 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check image name
-      run: echo "docker image name would be: ${{ github.event.repository.name }}:$(date +%s)"
+      env:
+        REPO_NAME: ${{ github.event.repository.name }}
+        REPO_BRANCH: ${{ github.ref }}
+      run: echo "docker image name would be $REPO_NAME:$REPO_BRANCH"
 #    - name: Build the Docker image
 #      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
