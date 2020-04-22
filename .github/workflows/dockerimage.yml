@@ -14,10 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Check event name
+    - name: Check variables
       env:
         EVENT_NAME: ${{ github.event_name }}
-      run: echo "$EVENT_NAME"
+        REPO_NAME: ${{ github.event.repository.name }}
+        REPO_BRANCH: ${{ github.head_ref }}
+      run: echo "event name $EVENT_NAME head_branch $REPO_BRANCH"
     - name: Check image name
       env:
         REPO_NAME: ${{ github.event.repository.name }}
