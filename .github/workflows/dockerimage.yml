@@ -18,15 +18,15 @@ jobs:
       env:
         EVENT_NAME: ${{ github.event_name }}
       run: echo "$EVENT_NAME"
-    - name: Check branch name
-      env:
-        HEAD_NAME: ${{ github.head_ref }}
-      run: echo "$HEAD_NAME"
     - name: Check image name
       env:
         REPO_NAME: ${{ github.event.repository.name }}
-        REPO_BRANCH: ${{ github.base_ref }}
+        REPO_BRANCH: ${{ github.head_ref }}
       run: echo "docker image name would be $REPO_NAME:$REPO_BRANCH"
       if: github.event_name == 'pull_request' 
-#    - name: Build the Docker image
-#      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the Docker image
+      env:
+        REPO_NAME: ${{ github.event.repository.name }}
+        REPO_BRANCH: ${{ github.head_ref }}
+      run: docker build . --file Dockerfile --tag $REPO_NAME:$REPO_BRANCH"
+      if: github.event_name == 'pull_request' 
