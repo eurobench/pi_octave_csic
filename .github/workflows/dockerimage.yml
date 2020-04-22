@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check image name
+      run: echo "docker image name would be: ${{ github.event.repository.name }}:$(date +%s)"
+#    - name: Build the Docker image
+#      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
