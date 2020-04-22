@@ -14,15 +14,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Extract branch name
-      shell: bash
-      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
+    - name: Check event name
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+      run: echo "$EVENT_NAME"
     - name: Test
       run: echo "${BRANCH_NAME}"
     - name: Check image name
       env:
         REPO_NAME: ${{ github.event.repository.name }}
-        REPO_BRANCH: ${{ github.ref }}
+        REPO_BRANCH: ${{ github.base_ref }}
       run: echo "docker image name would be $REPO_NAME:$REPO_BRANCH"
+      if: github.event_name == 'pull_request' 
 #    - name: Build the Docker image
 #      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
