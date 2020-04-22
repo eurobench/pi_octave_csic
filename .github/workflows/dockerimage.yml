@@ -18,8 +18,9 @@ jobs:
       env:
         EVENT_NAME: ${{ github.event_name }}
         REPO_NAME: ${{ github.event.repository.name }}
-        REPO_BRANCH: ${{ github.head_ref }}
-      run: echo "event name $EVENT_NAME head_branch $REPO_BRANCH"
+        REPO_HEAD_REF: ${{ github.head_ref }}
+        REPO_REF: ${{ github.ref}}
+      run: echo "event name $EVENT_NAME head_branch $REPO_HEAD_REF $REPO_REF"
     - name: Check image name
       env:
         REPO_NAME: ${{ github.event.repository.name }}
