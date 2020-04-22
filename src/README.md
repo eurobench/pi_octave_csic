@@ -8,7 +8,7 @@ Follow the upper [Readme](../README.md) indications.
 
 ## Description
 
-The original entry point `Main.m` is deprecated, and left for having trace of the metric process across trials.
+The original entry point `Main.m` is deprecated, and has been removed.
 
 The current entry point is [computePI.m](computePI.m).
 
@@ -31,7 +31,7 @@ The current documentation may not be updated.
 
 Matlab algorithm to obtain some spatiotemporal data (step length, step and stride time) for human gait.
 
-The main algorithm (Main.m) uses four functions to obtain the desired spatiotemporals:
+The main algorithm uses four functions to obtain the desired spatiotemporals:
 
 - `find_leg_extension.m`:
   Detects each leg extension as the minimum after each peak in the angle of the knee.
