@@ -44,7 +44,7 @@ jobs:
     - name: Build the Docker image (Push on master)
       env:
         REPO_NAME: ${{ github.event.repository.name }}
-      run: docker build . --file Dockerfile --tag $REPO_NAME:latest
+      run: docker build . --file Dockerfile --tag eurobenchtest/$REPO_NAME:latest
       if: github.event_name == 'push'
     - name: Push to Docker hub (Push on master)
       env:
