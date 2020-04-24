@@ -14,6 +14,8 @@ import os
 import io
 import unittest
 import tempfile
+import logging
+import sys
 
 
 class DockerCallTest(unittest.TestCase):
@@ -26,11 +28,12 @@ class DockerCallTest(unittest.TestCase):
         """Common initialization operations
         """
 
-        print("Setting up the test")
+        log = logging.getLogger("TestLog")
 
-        print("Testing image: {}".format(self.DOCKER_IMAGE))
+        log.debug("Setting up the test")
+
+        log.debug("Testing image: {}".format(self.DOCKER_IMAGE))
         rel_path = os.path.dirname(__file__)
-        print("Done")
 
         self.input_data_path = os.path.abspath(os.getcwd() + "/" + rel_path + "/data/input")
 
@@ -106,7 +109,9 @@ class DockerCallTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    print("test_docker_call -- begin: {}".format(os.environ.get('DOCKER_IMAGE')))
+    print("test_docker_call -- testing image: {}".format(os.environ.get('DOCKER_IMAGE')))
+
+    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
     DockerCallTest.DOCKER_IMAGE = os.environ.get('DOCKER_IMAGE', DockerCallTest.DOCKER_IMAGE)
     # TODO using https://stackoverflow.com/questions/11380413/python-unittest-passing-arguments
