@@ -28,18 +28,18 @@ class DockerCallTest(unittest.TestCase):
         """Common initialization operations
         """
 
-        log = logging.getLogger("test_log")
+        self.log = logging.getLogger("test_log")
 
-        log.debug("Setting up the test")
+        self.log.debug("Setting up the test")
 
-        log.debug("Testing image: {}".format(self.DOCKER_IMAGE))
+        self.log.debug("Testing image: {}".format(self.DOCKER_IMAGE))
         rel_path = os.path.dirname(__file__)
 
         self.input_data_path = os.path.abspath(os.getcwd() + "/" + rel_path + "/data/input")
 
         self.output_groundtruth_path = os.path.abspath(os.getcwd() + "/" + rel_path + "/data/output")
 
-        log.debug("Input data in: {}".format(self.input_data_path))
+        self.log.debug("Input data in: {}".format(self.input_data_path))
 
         self.output_data_path = tempfile.mkdtemp()
         os.chmod(self.output_data_path, 0o777)
@@ -64,18 +64,18 @@ class DockerCallTest(unittest.TestCase):
 
         self.command += "./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out"
 
-        log.debug("Command generated: \n{}".format(self.command))
+        self.log.debug("Command generated: \n{}".format(self.command))
 
     def test_call_docker(self):
         """test the docker component with stored input and output
 
         """
 
-        log.info("Launching docker command")
+        self.log.info("Launching docker command")
         # TODO how to catch the result of the command (error or success)
         os.system(self.command)
 
-        log.info("Docker command launched")
+        self.log.info("Docker command launched")
 
         # check generated files
         output_files = os.listdir(self.output_data_path)
@@ -86,7 +86,7 @@ class DockerCallTest(unittest.TestCase):
         # Check the content of each file
 
         for filename in output_files:
-            log.debug("comparing file: {}".format(filename))
+            self.log.debug("comparing file: {}".format(filename))
 
             file_generated = self.output_data_path + "/" + filename
 
@@ -105,7 +105,7 @@ class DockerCallTest(unittest.TestCase):
             # print("Comparing:\n{}\n with \n{}".format(lines_generated, lines_groundtruth))
             self.assertListEqual(lines_generated, lines_groundtruth)
 
-        log.info("Test completed")
+        self.log.info("Test completed")
 
 
 if __name__ == '__main__':
