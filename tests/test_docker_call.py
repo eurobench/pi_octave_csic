@@ -14,6 +14,9 @@ import os
 import io
 import unittest
 import tempfile
+import logging
+import sys
+
 
 class DockerCallTest(unittest.TestCase):
     """gather program tests
@@ -25,16 +28,18 @@ class DockerCallTest(unittest.TestCase):
         """Common initialization operations
         """
 
-        print("Setting up the test")
+        self.log = logging.getLogger("test_log")
 
+        self.log.debug("Setting up the test")
+
+        self.log.debug("Testing image: {}".format(self.DOCKER_IMAGE))
         rel_path = os.path.dirname(__file__)
-        print("Done")
 
         self.input_data_path = os.path.abspath(os.getcwd() + "/" + rel_path + "/data/input")
 
         self.output_groundtruth_path = os.path.abspath(os.getcwd() + "/" + rel_path + "/data/output")
 
-        print("Input data in: {}".format(self.input_data_path))
+        self.log.debug("Input data in: {}".format(self.input_data_path))
 
         self.output_data_path = tempfile.mkdtemp()
         os.chmod(self.output_data_path, 0o777)
@@ -59,18 +64,18 @@ class DockerCallTest(unittest.TestCase):
 
         self.command += "./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out"
 
-        print("Commande generated: \n{}".format(self.command))
+        self.log.debug("Command generated: \n{}".format(self.command))
 
     def test_call_docker(self):
         """test the docker component with stored input and output
 
         """
 
-        print("Launching docker command")
+        self.log.info("Launching docker command")
         # TODO how to catch the result of the command (error or success)
         os.system(self.command)
 
-        print("Docker command launched")
+        self.log.info("Docker command launched")
 
         # check generated files
         output_files = os.listdir(self.output_data_path)
@@ -81,7 +86,7 @@ class DockerCallTest(unittest.TestCase):
         # Check the content of each file
 
         for filename in output_files:
-            print("comparing file: {}".format(filename))
+            self.log.debug("comparing file: {}".format(filename))
 
             file_generated = self.output_data_path + "/" + filename
 
@@ -100,11 +105,13 @@ class DockerCallTest(unittest.TestCase):
             # print("Comparing:\n{}\n with \n{}".format(lines_generated, lines_groundtruth))
             self.assertListEqual(lines_generated, lines_groundtruth)
 
-        print("Done")
+        self.log.info("Test completed")
 
 
 if __name__ == '__main__':
-    print("test_docker_call -- begin: {}".format(os.environ.get('DOCKER_IMAGE')))
+    print("test_docker_call -- testing image: {}".format(os.environ.get('DOCKER_IMAGE')))
+
+    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
     DockerCallTest.DOCKER_IMAGE = os.environ.get('DOCKER_IMAGE', DockerCallTest.DOCKER_IMAGE)
     # TODO using https://stackoverflow.com/questions/11380413/python-unittest-passing-arguments
