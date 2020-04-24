@@ -31,7 +31,8 @@ jobs:
       env:
         REPO_NAME: ${{ github.event.repository.name }}
         REPO_BRANCH: ${{ github.head_ref }}
-      run: DOCKER_IMAGE=${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME} python3 tests/test_docker_call.py
+        DOCKER_IMAGE: ${{ github.event.repository.name }}:${{ github.head_ref }}
+      run:  python3 tests/test_docker_call.py
       if: github.event_name == 'pull_request'
     - name: Build the Docker image (PR)
       env:

@@ -28,6 +28,7 @@ class DockerCallTest(unittest.TestCase):
 
         print("Setting up the test")
 
+        print("Testing image: {}".format(self.DOCKER_IMAGE))
         rel_path = os.path.dirname(__file__)
         print("Done")
 
