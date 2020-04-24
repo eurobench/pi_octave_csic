@@ -28,7 +28,7 @@ class DockerCallTest(unittest.TestCase):
         """Common initialization operations
         """
 
-        log = logging.getLogger("TestLog")
+        log = logging.getLogger("test_log")
 
         log.debug("Setting up the test")
 
@@ -39,7 +39,7 @@ class DockerCallTest(unittest.TestCase):
 
         self.output_groundtruth_path = os.path.abspath(os.getcwd() + "/" + rel_path + "/data/output")
 
-        print("Input data in: {}".format(self.input_data_path))
+        log.debug("Input data in: {}".format(self.input_data_path))
 
         self.output_data_path = tempfile.mkdtemp()
         os.chmod(self.output_data_path, 0o777)
@@ -64,18 +64,18 @@ class DockerCallTest(unittest.TestCase):
 
         self.command += "./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out"
 
-        print("Commande generated: \n{}".format(self.command))
+        log.debug("Command generated: \n{}".format(self.command))
 
     def test_call_docker(self):
         """test the docker component with stored input and output
 
         """
 
-        print("Launching docker command")
+        log.info("Launching docker command")
         # TODO how to catch the result of the command (error or success)
         os.system(self.command)
 
-        print("Docker command launched")
+        log.info("Docker command launched")
 
         # check generated files
         output_files = os.listdir(self.output_data_path)
@@ -86,7 +86,7 @@ class DockerCallTest(unittest.TestCase):
         # Check the content of each file
 
         for filename in output_files:
-            print("comparing file: {}".format(filename))
+            log.debug("comparing file: {}".format(filename))
 
             file_generated = self.output_data_path + "/" + filename
 
@@ -105,7 +105,7 @@ class DockerCallTest(unittest.TestCase):
             # print("Comparing:\n{}\n with \n{}".format(lines_generated, lines_groundtruth))
             self.assertListEqual(lines_generated, lines_groundtruth)
 
-        print("Done")
+        log.info("Test completed")
 
 
 if __name__ == '__main__':
