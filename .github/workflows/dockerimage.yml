@@ -53,7 +53,7 @@ jobs:
       if: github.event_name == 'push'
     - name: test the Docker image
       env:
-        DOCKER_IMAGE: ${{ github.event.repository.name }}:latest
+        DOCKER_IMAGE: eurobenchtest/${{ github.event.repository.name }}:latest
       run:  python3 tests/test_docker_call.py
       if: github.event_name == 'push'
     - name: Push to Docker hub (Push on master)
