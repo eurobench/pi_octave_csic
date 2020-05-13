@@ -44,19 +44,6 @@ class DockerCallTest(unittest.TestCase):
         self.output_data_path = tempfile.mkdtemp()
         os.chmod(self.output_data_path, 0o777)
 
-        #tmp_content = os.listdir("/tmp")
-        #print("TMP folder content BEFORE: {}".format(tmp_content))
-
-        #if not os.path.exists(self.output_data_path):
-        #    os.umask(0)
-        #    os.makedirs(self.output_data_path, mode=0o777)
-
-        #tmp_content = os.listdir(self.output_data_path)
-        #print("result folder content: {}".format(tmp_content))
-
-        #tmp_content = os.listdir("/tmp")
-        #print("TMP folder content AFTER: {}".format(tmp_content))
-
         # preparing the generation command
         self.command = "docker run --rm -v {}:/in -v {}:/out {} ".format(self.input_data_path,
                                                                          self.output_data_path,
