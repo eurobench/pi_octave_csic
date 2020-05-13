@@ -9,7 +9,6 @@
 % License Beerware
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 function result = computePI(csv_file, anthro_file, result_dir)
 
     %csv_file = "../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv";
@@ -26,7 +25,6 @@ function result = computePI(csv_file, anthro_file, result_dir)
     else
         disp('Using Matlab')
     end
-
 
     % get the scv data
 
@@ -56,22 +54,22 @@ function result = computePI(csv_file, anthro_file, result_dir)
 
     [filepath, name, ext] = fileparts(csv_file);
 
-    filename = strcat(result_dir, "/", name, "_pi_stride_time_right", ".yaml")
+    filename = strcat(result_dir, "/", "stride_time_right", ".yaml")
     store_vector(filename, sp_data.strideTime.rightleg.data);
 
-    filename = strcat(result_dir, "/", name, "_pi_stride_time_left", ".yaml")
+    filename = strcat(result_dir, "/", "stride_time_left", ".yaml")
     store_vector(filename, sp_data.strideTime.leftleg.data);
 
-    filename = strcat(result_dir, "/", name, "_pi_step_time_right", ".yaml")
+    filename = strcat(result_dir, "/", "step_time_right", ".yaml")
     store_vector(filename, sp_data.stepTime.rightleg.data);
 
-    filename = strcat(result_dir, "/", name, "_pi_step_time_left", ".yaml")
+    filename = strcat(result_dir, "/", "step_time_left", ".yaml")
     store_vector(filename, sp_data.stepTime.leftleg.data);
 
-    filename = strcat(result_dir, "/", name, "_pi_step_length_right", ".yaml")
+    filename = strcat(result_dir, "/", "step_length_right", ".yaml")
     store_vector(filename, sp_data.stepLength.rightleg.data);
 
-    filename = strcat(result_dir, "/", name, "_pi_step_length_left", ".yaml")
+    filename = strcat(result_dir, "/", "step_length_left", ".yaml")
     store_vector(filename, sp_data.stepLength.leftleg.data);
 end
 

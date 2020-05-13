@@ -34,7 +34,6 @@ Once octave is configured:
 pkg load signal
 pkg load mapping
 pkg load statistics
-Main
 ```
 
 Note that all these installation steps can be run following the `RUN` command of the [Dockerfile](Dockerfile):
