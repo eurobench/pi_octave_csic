@@ -54,10 +54,10 @@ function result = computePI(csv_file, anthro_file, result_dir)
 
     [filepath, name, ext] = fileparts(csv_file);
 
-    filename = strcat(result_dir, "/", name, "_pi_stride_time_right", ".yaml")
+    filename = strcat(result_dir, "/", "stride_time_right", ".yaml")
     disp(["Filename: ", filename])
 
-    file_id = fopen(strcat(result_dir, "/", name, "_pi_stride_time_right", ".yaml"), 'w');
+    file_id = fopen(strcat(result_dir, "/", "stride_time_right", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
     for i = 1:size(sp_data.strideTime.rightleg.data)(2)
@@ -70,10 +70,10 @@ function result = computePI(csv_file, anthro_file, result_dir)
     fprintf(file_id, value_str);
     fclose(file_id);
 
-    filename = strcat(result_dir, "/", name, "_pi_stride_time_left", ".yaml")
+    filename = strcat(result_dir, "/", "stride_time_left", ".yaml")
     disp(["Filename: ", filename])
 
-    file_id = fopen(strcat(result_dir, "/", name, "_pi_stride_time_left", ".yaml"), 'w');
+    file_id = fopen(strcat(result_dir, "/", "stride_time_left", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
     for i = 1:size(sp_data.strideTime.leftleg.data)(2)
@@ -86,7 +86,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     fprintf(file_id, value_str);
     fclose(file_id);
 
-    file_id = fopen(strcat(result_dir, "/", name, "_pi_step_time_right", ".yaml"), 'w');
+    file_id = fopen(strcat(result_dir, "/", "step_time_right", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
     for i = 1:size(sp_data.stepTime.rightleg.data)(2)
@@ -99,7 +99,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     fprintf(file_id, value_str);
     fclose(file_id);
 
-    file_id = fopen(strcat(result_dir, "/", name, "_pi_step_time_left", ".yaml"), 'w');
+    file_id = fopen(strcat(result_dir, "/", "step_time_left", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
     for i = 1:size(sp_data.stepTime.leftleg.data)(2)
@@ -112,7 +112,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     fprintf(file_id, value_str);
     fclose(file_id);
 
-    file_id = fopen(strcat(result_dir, "/", name, "_pi_step_length_right", ".yaml"), 'w');
+    file_id = fopen(strcat(result_dir, "/", "step_length_right", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
     for i = 1:size(sp_data.stepLength.rightleg.data)(2)
@@ -125,7 +125,7 @@ function result = computePI(csv_file, anthro_file, result_dir)
     fprintf(file_id, value_str);
     fclose(file_id);
 
-    file_id = fopen(strcat(result_dir, "/", name, "_pi_step_length_left", ".yaml"), 'w');
+    file_id = fopen(strcat(result_dir, "/", "step_length_left", ".yaml"), 'w');
     fprintf(file_id, "type: \'vector\'\n");
     value_str = "value: [";
     for i = 1:size(sp_data.stepLength.leftleg.data)(2)
