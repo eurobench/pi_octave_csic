@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_plan>
+<test pi_name="./run_pi"
+      parameters="/in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out"
+      input_folder="data/input"
+      output_folder="data/output"/>
+</test_plan>
