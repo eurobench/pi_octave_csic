@@ -41,4 +41,4 @@ jobs:
               echo "Resultat: $oneres"
               res=$((res+oneres))
           done
-          return $res
+          exit $res
