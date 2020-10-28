@@ -19,9 +19,13 @@ jobs:
       - name: yaml linting
         # see https://yamllint.readthedocs.io/en/stable/configuration.html
         run: |
-          yamllint -d relaxed tests > log_lint.txt
-          success=$?
-          more log_lint.txt
+          success=0
+          for i in `find tests -name "*.yaml" -type f`; do
+            echo "Processing $i"
+            yamllint -d relaxed $i
+            res=$?
+            success=$((res+success))
+          done
           exit $success
   csv-linting:
     runs-on: ubuntu-latest
