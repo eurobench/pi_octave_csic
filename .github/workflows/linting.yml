@@ -18,7 +18,11 @@ jobs:
           pip install yamllint
       - name: yaml linting
         # see https://yamllint.readthedocs.io/en/stable/configuration.html
-        run: yamllint -d relaxed tests
+        run: |
+          yamllint -d relaxed tests > log_lint.txt
+          success=$?
+          more log_lint.txt
+          exit $success
   csv-linting:
     runs-on: ubuntu-latest
 
