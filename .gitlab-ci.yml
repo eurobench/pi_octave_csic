@@ -36,6 +36,8 @@ trial_docker:
     - export TEST_PLAN='tests/test_plan.xml'
     - export OUT_FOLDER="${MOUNT_POINT}"
     - python3 test_docker_call.py
+  except:
+    - master
 
 deploy_image:
   stage: deploy
@@ -58,7 +60,7 @@ deploy_image:
     - export OUT_FOLDER="${MOUNT_POINT}"
     - python3 test_docker_call.py
     - docker push ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
-    only:
+  only:
     - master
 # gen_docker:
 #   stage: build
