@@ -1,40 +1,90 @@
+image: docker:git
+
 variables:
   GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
+  TMPDIR: "${CI_PROJECT_DIR}.tmp"
+  MOUNT_POINT: /builds/$CI_PROJECT_PATH/mnt
+
+services:
+  - docker:dind
 
 stages:
   - build
-  - test
   - deploy
 
 before_script:
   - 'echo "New job started"'
   - 'echo "Project name: $CI_PROJECT_NAME."'
   - 'echo "Commit ref: $CI_COMMIT_REF_NAME."'
+# inspired from https://molecule.readthedocs.io/en/latest/ci.html
+  - apk add --no-cache python3 python3-dev
 
-gen_docker:
+trial_docker:
   stage: build
   tags:
-    - ci
+    - docker
   script:
-    - 'echo "name: $CI_PROJECT_NAME:$CI_COMMIT_REF_NAME"'
-    - 'echo "artifactory url: $ARTIFACT_DOCKER_URL"'
-    - docker build . -t ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+    - 'echo "${MOUNT_POINT}"'
+    - mkdir -p "$MOUNT_POINT"
+    - chmod a+rw $MOUNT_POINT
+    - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
+    - docker pull ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master
+#    - docker run --rm -v /builds/eurobench/pi_csic/tests/data/input:/in -v "${MOUNT_POINT}:/out" ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out
+    - docker build . -t ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master
+    - wget -O test_docker_call.py https://raw.githubusercontent.com/eurobench/docker_test/master/test_docker_call.py
+    - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master'
+    - export TEST_PLAN='tests/test_plan.xml'
+    - export OUT_FOLDER="${MOUNT_POINT}"
+    - python3 test_docker_call.py
+  except:
+    - master
 
-test_docker:
-  stage: test
-  tags:
-    - ci
-  script:
-    - DOCKER_IMAGE=${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME} python3 tests/test_docker_call.py
-
-deploy_docker:
+deploy_image:
   stage: deploy
   tags:
-    - ci
+    - docker
   script:
-    # - docker save -o pi_csic_docker_image.tar pi_csic_docker_image
+    - 'echo "${MOUNT_POINT}"'
+    - mkdir -p "$MOUNT_POINT"
+    - ls -la
+    - chmod a+rw $MOUNT_POINT
+    - 'echo "mounting point attempt: $MOUNT_POINT"'
+    - ls -la
     - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
+    - docker pull ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+#    - docker run --rm -v /builds/eurobench/pi_csic/tests/data/input:/in -v "${MOUNT_POINT}:/out" ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out
+    - docker build . -t ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+    - wget -O test_docker_call.py https://raw.githubusercontent.com/eurobench/docker_test/master/test_docker_call.py
+    - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}'
+    - export TEST_PLAN='tests/test_plan.xml'
+    - export OUT_FOLDER="${MOUNT_POINT}"
+    - python3 test_docker_call.py
     - docker push ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+  only:
+    - master
+# gen_docker:
+#   stage: build
+#   tags:
+#     - docker
+#   script:
+#     - 'echo "name: $CI_PROJECT_NAME:$CI_COMMIT_REF_NAME"'
+#     - 'echo "artifactory url: $ARTIFACT_DOCKER_URL"'
+#     - docker build . -t ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+#     - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}'
+#     - export TEST_PLAN='test_data/test_plan.xml'
+#     - python3 test_docker_call.py
+
+# test_docker:
+#   stage: test
+
+#   script:
+#     - DOCKER_IMAGE=${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME} python3 tests/test_docker_call.py
+
+# deploy_docker:
+#   stage: deploy
+#   script:
+#     #- docker save -o pi_csic_docker_image.tar pi_csic_docker_image
+#     - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
 
 after_script:
   - echo "Job finished, well done"
