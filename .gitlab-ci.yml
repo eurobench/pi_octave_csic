@@ -24,18 +24,17 @@ trial_docker:
   tags:
     - docker
   script:
+    - 'echo "${MOUNT_POINT}"'
     - mkdir -p "$MOUNT_POINT"
-    - 'echo "${CI_PROJECT_DIR}"'
+    - ls -la
+    - chmod a+rw $MOUNT_POINT
     - 'echo "mounting point attempt: $MOUNT_POINT"'
+    - ls -la
     - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
     - docker pull ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master
-    - 'export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"'
-    - echo ${SHARED_PATH}
-    - mkdir -p ${SHARED_PATH}/out
-    - docker run --rm -v /builds/eurobench/pi_csic/tests/data/input:/in -v ${CI_PROJECT_DIR}/debout:/out ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out
-    - ls -la ${SHARED_PATH}/out
-    - ls ${CI_PROJECT_DIR}
-    - ${CI_PROJECT_DIR}/debout
+    - docker run --rm -v /builds/eurobench/pi_csic/tests/data/input:/in -v "${MOUNT_POINT}:/out" ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out
+    - ls -la ${MOUNT_POINT}
+    - ls -la
 #    - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master'
 #    - export TEST_PLAN='tests/test_plan.xml'
 #    - mkdir tmp_out
