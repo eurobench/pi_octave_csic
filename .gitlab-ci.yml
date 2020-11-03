@@ -25,7 +25,7 @@ trial_docker:
     - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
     - docker pull ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}
     - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}'
-    - export TEST_PLAN='test_data/test_plan.xml'
+    - export TEST_PLAN='tests/test_plan.xml'
     - python3 test_docker_call.py
 
 # gen_docker:

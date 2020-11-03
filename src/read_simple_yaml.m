@@ -3,14 +3,12 @@
 %
 % Extract from a simple and 1 level yaml the data in it
 %
-% Anthony Remazetlles
+% Anthony Remazeilles
 % Copyright Tecnalia 2019
 % Beerware license.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function data = read_simple_yaml(filename)
-
-    %filename = "../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml"
 
     fid = fopen(filename);
 

@@ -13,6 +13,3 @@ apt-get install -y liboctave-dev
 # cleanup package manager
 apt-get autoclean && apt-get clean
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# prepare dir
-mkdir /source

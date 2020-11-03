@@ -28,12 +28,6 @@ ADD src /home/octave/src/
 ADD run_pi /home/octave/
 # set the user as owner of the copied files.
 RUN chown -R octave:octave /home/octave/
-# create folder for receiving input files and generated files
-RUN mkdir /out \
-    && mkdir /in
-# adjust folder properties
-RUN chown -R octave:octave /out/
-
 
 USER octave
 WORKDIR /home/octave
