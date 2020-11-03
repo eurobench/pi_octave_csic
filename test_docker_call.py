@@ -152,7 +152,7 @@ class DockerCallTest(unittest.TestCase):
                 #os.chmod(output_data_path, 0o777)
 
                 ##os.makedirs('tmp_out')
-                output_data_path = os.getcwd() + "/tmp_out/"
+                output_data_path = "/builds/eurobench/pi_csic/mnt"
                 # preparing the generation command
                 self.command = "docker run --rm -v {}:/in -v {}:/out {} ".format(one_test['input_folder'],
                                                                                 output_data_path,
