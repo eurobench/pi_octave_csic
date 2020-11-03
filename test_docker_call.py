@@ -154,7 +154,7 @@ class DockerCallTest(unittest.TestCase):
 
                 output_data_path = str()
                 if (self.OUT_FOLDER):
-                    output_data_path = self.OUT_FOLDER + "{0:0=2d}".format(i)
+                    output_data_path = self.OUT_FOLDER + "/{0:0=2d}".format(i)
                     os.makedirs(output_data_path)
                 else:
                     # no output folder defined. We generate it
@@ -183,6 +183,8 @@ class DockerCallTest(unittest.TestCase):
                 output_files = os.listdir(output_data_path)
                 output_files_expected = os.listdir(output_groundtruth_path)
 
+                self.log.info("files generated: \n{}".format(output_files))
+                self.log.info("files expected: \n{}".format(output_files_expected))
                 self.assertCountEqual(output_files, output_files_expected, msg="Missing generated files")
 
                 # Check the content of each file
