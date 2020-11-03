@@ -15,19 +15,30 @@ before_script:
   - 'echo "Commit ref: $CI_COMMIT_REF_NAME."'
 # inspired from https://molecule.readthedocs.io/en/latest/ci.html
   - apk add --no-cache python3 python3-dev
-  - wget -O test_docker_call.py https://raw.githubusercontent.com/eurobench/docker_test/master/test_docker_call.py
+#  - wget -O test_docker_call.py https://raw.githubusercontent.com/eurobench/docker_test/master/test_docker_call.py
 
-gen_docker:
+trial_docker:
   stage: build
   tags:
     - docker
   script:
-    - 'echo "name: $CI_PROJECT_NAME:$CI_COMMIT_REF_NAME"'
-    - 'echo "artifactory url: $ARTIFACT_DOCKER_URL"'
-    - docker build . -t ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+    - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
+    - docker pull ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}
     - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}'
     - export TEST_PLAN='test_data/test_plan.xml'
     - python3 test_docker_call.py
+
+# gen_docker:
+#   stage: build
+#   tags:
+#     - docker
+#   script:
+#     - 'echo "name: $CI_PROJECT_NAME:$CI_COMMIT_REF_NAME"'
+#     - 'echo "artifactory url: $ARTIFACT_DOCKER_URL"'
+#     - docker build . -t ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}
+#     - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:${CI_COMMIT_REF_NAME}'
+#     - export TEST_PLAN='test_data/test_plan.xml'
+#     - python3 test_docker_call.py
 
 # test_docker:
 #   stage: test
