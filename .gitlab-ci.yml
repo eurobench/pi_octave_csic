@@ -2,6 +2,7 @@ image: docker:git
 
 variables:
   GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
+  TMPDIR: "${CI_PROJECT_DIR}.tmp"
 
 services:
   - docker:dind
