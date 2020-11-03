@@ -151,7 +151,7 @@ class DockerCallTest(unittest.TestCase):
                 #output_data_path = tempfile.mkdtemp()
                 #os.chmod(output_data_path, 0o777)
 
-                os.makedirs('tmp_out')
+                ##os.makedirs('tmp_out')
                 output_data_path = os.getcwd() + "/tmp_out/"
                 # preparing the generation command
                 self.command = "docker run --rm -v {}:/in -v {}:/out {} ".format(one_test['input_folder'],
