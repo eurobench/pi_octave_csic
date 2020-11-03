@@ -27,7 +27,7 @@ trial_docker:
     - 'echo "${MOUNT_POINT}"'
     - mkdir -p "$MOUNT_POINT"
     - ls -la
- #    - chmod a+rw $MOUNT_POINT
+    - chmod a+rw $MOUNT_POINT
     - 'echo "mounting point attempt: $MOUNT_POINT"'
     - ls -la
     - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
