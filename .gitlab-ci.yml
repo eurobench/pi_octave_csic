@@ -3,6 +3,7 @@ image: docker:git
 variables:
   GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
   TMPDIR: "${CI_PROJECT_DIR}.tmp"
+  MOUNT_POINT: /builds/$CI_PROJECT_PATH/mnt
 
 services:
   - docker:dind
@@ -23,12 +24,14 @@ trial_docker:
   tags:
     - docker
   script:
+    - mkdir -p "$MOUNT_POINT"
+    - 'echo "mounting point attempt: $MOUNT_POINT"'
     - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
     - docker pull ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master
     - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master'
     - export TEST_PLAN='tests/test_plan.xml'
     - mkdir tmp_out
-    - ls
+    - ls -la
     - python3 test_docker_call.py
 
 # gen_docker:
