@@ -11,9 +11,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function result = computePI(csv_file, anthro_file, result_dir)
 
-    %csv_file = "../sample_data/pi_csic/data/subject10/subject_10_trial_01.csv";
-    %anthro_file = "../sample_data/pi_csic/data/subject10/subject_10_anthropometry.yaml";
-
     disp(["Input parameters: ", csv_file, " ", anthro_file, " ", result_dir])
     isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
