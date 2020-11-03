@@ -38,8 +38,8 @@ trial_docker:
     - export OUT_FOLDER="${MOUNT_POINT}"
     - ls -la
     - python3 test_docker_call.py
-     - ls -la ${MOUNT_POINT}
-     - ls -la
+    - ls -la ${MOUNT_POINT}
+    - ls -la
 
 # gen_docker:
 #   stage: build
