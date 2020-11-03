@@ -83,8 +83,12 @@ class DockerCallTest(unittest.TestCase):
     """gather program tests
     """
 
+    # Image to launch
     DOCKER_IMAGE = "pi_beat"
+    # File containing the plan to generate
     TEST_PLAN = "test_plan.xml"
+    # Folder to which results should be written. If empty, we will generate one.
+    OUT_FOLDER = ""
 
     def setUp(self):
         """Common initialization operations
@@ -148,11 +152,16 @@ class DockerCallTest(unittest.TestCase):
             with self.subTest(msg=msg_test):
                 self.log.debug("Launching test {}".format(i))
 
-                #output_data_path = tempfile.mkdtemp()
-                #os.chmod(output_data_path, 0o777)
+                output_data_path = str()
+                if (self.OUT_FOLDER):
+                    output_data_path = self.OUT_FOLDER + "{0:0=2d}".format(i)
+                    os.makedirs(output_data_path)
+                else:
+                    # no output folder defined. We generate it
+                    output_data_path = tempfile.mkdtemp()
 
-                ##os.makedirs('tmp_out')
-                output_data_path = "/builds/eurobench/pi_csic/mnt"
+                os.chmod(output_data_path, 0o777)
+
                 # preparing the generation command
                 self.command = "docker run --rm -v {}:/in -v {}:/out {} ".format(one_test['input_folder'],
                                                                                 output_data_path,
@@ -210,6 +219,7 @@ if __name__ == '__main__':
 
     DockerCallTest.DOCKER_IMAGE = os.environ.get('DOCKER_IMAGE', DockerCallTest.DOCKER_IMAGE)
     DockerCallTest.TEST_PLAN = os.environ.get('TEST_PLAN', DockerCallTest.TEST_PLAN)
+    DockerCallTest.OUT_FOLDER = os.environ.get('OUT_FOLDER', DockerCallTest.OUT_FOLDER)
     # TODO using https://stackoverflow.com/questions/11380413/python-unittest-passing-arguments
     # but it is mentioned as not preferrable.
     unittest.main()

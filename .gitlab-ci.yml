@@ -32,14 +32,14 @@ trial_docker:
     - ls -la
     - docker login ${ARTIFACT_DOCKER_URL} -u ${ARTIFACT_CI_USER} -p ${ARTIFACT_CI_TOKEN}
     - docker pull ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master
-    - docker run --rm -v /builds/eurobench/pi_csic/tests/data/input:/in -v "${MOUNT_POINT}:/out" ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out
-    - ls -la ${MOUNT_POINT}
+#    - docker run --rm -v /builds/eurobench/pi_csic/tests/data/input:/in -v "${MOUNT_POINT}:/out" ${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master ./run_pi /in/subject_10_trial_01.csv /in/subject_10_anthropometry.yaml /out
+    - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master'
+    - export TEST_PLAN='tests/test_plan.xml'
+    - export OUT_FOLDER="${MOUNT_POINT}"
     - ls -la
-#    - export DOCKER_IMAGE='${ARTIFACT_DOCKER_URL}/${CI_PROJECT_NAME}:master'
-#    - export TEST_PLAN='tests/test_plan.xml'
-#    - mkdir tmp_out
-#    - ls -la
-#    - python3 test_docker_call.py
+    - python3 test_docker_call.py
+     - ls -la ${MOUNT_POINT}
+     - ls -la
 
 # gen_docker:
 #   stage: build
