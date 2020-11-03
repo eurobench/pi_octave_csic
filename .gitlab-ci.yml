@@ -1,4 +1,4 @@
-image: docker:latest
+image: docker:git
 
 variables:
   GIT_LFS_SKIP_SMUDGE: 1 # Avoid fetching the files from LFS when doing git fetch
