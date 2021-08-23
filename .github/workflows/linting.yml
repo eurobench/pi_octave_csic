@@ -50,3 +50,14 @@ jobs:
               res=$((res+oneres))
           done
           exit $res
+  octave-linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # see https://github.com/Clever/csvlint
+      - name: install dependencies
+        run: pip3 install miss_hit
+      - name: csv linting
+        run: mh_style src
